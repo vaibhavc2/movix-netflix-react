@@ -1,13 +1,5 @@
-# React Template
+# Movix : A Netflix-like Application
 
-This is a template repository to create a project using Vite, React, Typescript, and TailwindCSS.
+Movix is built using _React, React-Redux, React Query, Typescript, Tailwind and many other libraries._
 
-Get started:
-
-```console
-gh repo create [my-app] --public --template=https://github.com/vaibhavc2/react-template.git
-git clone [github-url]
-cd my-app
-npm i
-npm run dev
-```
+This project uses advanced concepts of react: **Image Optimization and Lazy Loading, Memoization, Optimization of API calls, State Management, Asynchronous state management, Loading, Suspense Loading and many other latest features.**
