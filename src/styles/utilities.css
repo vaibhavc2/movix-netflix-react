@@ -1,5 +1,0 @@
-@layer utilities {
-  .dark {
-    @apply bg-gray-900 text-zinc-100;
-  }
-}

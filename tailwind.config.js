@@ -4,15 +4,15 @@ const defaultTheme = require("tailwindcss/defaultTheme");
 
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
-  darkMode: "class",
+  // darkMode: "class",
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Rubik", ...defaultTheme.fontFamily.sans],
-        serif: ["Roboto", ...defaultTheme.fontFamily.serif],
-        mono: ["Roboto Mono", ...defaultTheme.fontFamily.mono]
-      }
-    }
+        sans: ["Inter", ...defaultTheme.fontFamily.sans],
+        serif: ["Rubik", ...defaultTheme.fontFamily.serif],
+        mono: ["Roboto Mono", ...defaultTheme.fontFamily.mono],
+      },
+    },
   },
-  plugins: []
+  plugins: [],
 };
