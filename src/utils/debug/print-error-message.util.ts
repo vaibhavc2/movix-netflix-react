@@ -4,5 +4,5 @@ export function printErrorMessage(
   error: unknown,
   functionName = "Some Function"
 ) {
-  console.log(`⚠️ ERROR :: ${functionName} :: ${getErrorMessage(error)}`);
+  console.error(`⚠️ ERROR :: ${functionName} :: ${getErrorMessage(error)}`);
 }

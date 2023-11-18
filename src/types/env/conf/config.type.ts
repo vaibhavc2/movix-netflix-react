@@ -1,3 +1,3 @@
 interface Config {
-  TMDB_TOKEN: string;
+  TMDB_TOKEN: string | undefined;
 }
