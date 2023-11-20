@@ -1,22 +1,32 @@
-import { API_BASE_URL } from "../constants";
-import { createWretchApi } from "../helpers/wretch-api.helper";
-import { printErrorMessage } from "../utils/debug/print-error-message.util";
+import { API_BASE_URL } from "@/constants";
+import { createWretchApi } from "@/helpers/wretch-api.helper";
+import { printErrorMessage } from "@/utils/debug/print-error-message.util";
 
 class TMDBAPI {
   private api;
-  // public queryKey;
+  // public queryKey: any;
 
   constructor() {
     this.api = createWretchApi(API_BASE_URL);
-    // this.queryKey = ["tmdb"]; // change this acc to fetchData function
   }
 
-  fetchData = async (url: string, params: any) => {
+  fetchData = async (url: string, params?: any) => {
+    // this.queryKey = queryKey;
+
     try {
-      const data = await this.api.query(params).get(url);
-      return data;
+      if (params) {
+        const data = await this.api.query(params).get(url);
+        return data;
+      } else {
+        const data = await this.api.get(url);
+        return data;
+      }
     } catch (error: any) {
+      // debugging
       printErrorMessage(error, "TMDBAPI.fetchData");
+
+      // message to display to user
+      return "Something went wrong!";
     }
   };
 }

@@ -15,8 +15,8 @@ export const router = createBrowserRouter(
         <Route path=":mediaType/:id" element={<Details />} />
         <Route path="explore/:mediaType" element={<Explore />} />
         <Route path="search/:query" element={<Search />} />
-        <Route path="*" element={<PageNotFound />} />
       </Route>
+      <Route path="*" element={<PageNotFound />} />
     </>
   )
 );
