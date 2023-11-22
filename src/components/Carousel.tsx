@@ -105,7 +105,7 @@ const Carousel = ({ data, isLoading, isError, endPoint }: Props) => {
                   <div className="textBlock">
                     <div className="title">{item.title || item.name}</div>
                     <div className="date">
-                      {dayjs(item.release_Date).format("MMM D, YYYY")}
+                      {dayjs(item.release_date).format("MMM D, YYYY")}
                     </div>
                   </div>
                 </div>

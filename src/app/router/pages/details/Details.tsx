@@ -1,4 +1,11 @@
+import "@/styles/scss/other/pages/details.scss";
+
 const Details = () => {
-  return <div>Details</div>;
+  return (
+    <div>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Non,
+      reprehenderit?
+    </div>
+  );
 };
 export default Details;
