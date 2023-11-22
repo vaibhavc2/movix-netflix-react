@@ -1,11 +1,44 @@
+import { useApi } from "@/hooks/useApi";
+import { useParams } from "react-router-dom";
+
 import "@/styles/scss/other/pages/details.scss";
+import { memo } from "react";
+import DetailsBanner from "./details-banner/DetailsBanner";
 
 const Details = () => {
+  const { mediaType, id } = useParams();
+
+  const {
+    data: videos,
+    isLoading: videoIsLoading,
+    isError: videoIsError,
+  } = useApi(`/${mediaType}/${id}/videos`, [
+    `details-${mediaType}-${id}-videos`,
+  ]);
+
+  const {
+    data: credits,
+    isLoading: crewIsLoading,
+    isError: crewIsError,
+  } = useApi(`/${mediaType}/${id}/credits`, [
+    `details-${mediaType}-${id}-credits`,
+  ]);
+
+  const loadingStates = {
+    videoIsLoading,
+    videoIsError,
+    crewIsLoading,
+    crewIsError,
+  };
+
   return (
     <div>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Non,
-      reprehenderit?
+      <DetailsBanner
+        video={videos?.results?.[0]}
+        crew={credits?.crew}
+        loadingStates={loadingStates}
+      />
     </div>
   );
 };
-export default Details;
+export default memo(Details);
