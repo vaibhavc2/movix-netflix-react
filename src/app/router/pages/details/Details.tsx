@@ -3,7 +3,11 @@ import { useParams } from "react-router-dom";
 
 import "@/styles/scss/other/pages/details.scss";
 import { memo } from "react";
+import Recommendation from "./carousels/Recommendation";
+import Similar from "./carousels/Similar";
+import Cast from "./cast/Cast";
 import DetailsBanner from "./details-banner/DetailsBanner";
+import VideosSection from "./videos-section/VideosSection";
 
 const Details = () => {
   const { mediaType, id } = useParams();
@@ -38,6 +42,18 @@ const Details = () => {
         crew={credits?.crew}
         loadingStates={loadingStates}
       />
+      <Cast
+        data={credits?.cast}
+        isLoading={crewIsLoading}
+        isError={crewIsError}
+      />
+      <VideosSection
+        data={videos}
+        isLoading={videoIsLoading}
+        isError={videoIsError}
+      />
+      <Similar mediaType={String(mediaType)} id={String(id)} />
+      <Recommendation mediaType={String(mediaType)} id={String(id)} />
     </div>
   );
 };

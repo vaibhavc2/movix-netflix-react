@@ -4,6 +4,7 @@ import ContentWrapper from "./ContentWrapper";
 
 import { GITHUB_PROFILE, LINKEDIN_PROFILE, TWITTER_PROFILE } from "@/constants";
 import "@/styles/scss/other/components/footer.scss";
+import { memo } from "react";
 
 const Footer = () => {
   return (
@@ -42,4 +43,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default memo(Footer);

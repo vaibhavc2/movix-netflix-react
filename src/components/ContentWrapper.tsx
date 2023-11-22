@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, memo } from "react";
 
 import "@/styles/scss/other/components/content-wrapper.scss";
 
@@ -11,4 +11,4 @@ const ContentWrapper = ({ children, className }: Props) => {
   return <div className={"contentWrapper " + className}>{children}</div>;
 };
 
-export default ContentWrapper;
+export default memo(ContentWrapper);

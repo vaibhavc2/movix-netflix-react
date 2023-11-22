@@ -1,5 +1,6 @@
 import { useAppSelector } from "@/store/store";
 import "@/styles/scss/other/components/genres.scss";
+import { memo } from "react";
 
 const Genres = ({ data }: { data: number[] }) => {
   const { genres } = useAppSelector((state) => state.home);
@@ -16,4 +17,4 @@ const Genres = ({ data }: { data: number[] }) => {
     </div>
   );
 };
-export default Genres;
+export default memo(Genres);
