@@ -11,8 +11,6 @@ class TMDBAPI {
   }
 
   fetchData = async (url: string, params?: any) => {
-    // this.queryKey = queryKey;
-
     try {
       if (params) {
         const data = await this.api.query(params).get(url);

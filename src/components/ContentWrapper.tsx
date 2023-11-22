@@ -2,8 +2,13 @@ import { ReactNode } from "react";
 
 import "@/styles/scss/other/components/content-wrapper.scss";
 
-const ContentWrapper = ({ children }: { children: ReactNode }) => {
-  return <div className="contentWrapper">{children}</div>;
+type Props = {
+  children: ReactNode;
+  className?: string;
+};
+
+const ContentWrapper = ({ children, className }: Props) => {
+  return <div className={"contentWrapper " + className}>{children}</div>;
 };
 
 export default ContentWrapper;
