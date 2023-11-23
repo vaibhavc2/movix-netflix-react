@@ -1,22 +1,6 @@
 import { tmdbAPI } from "@/api/tmdb.api";
+import { INITIAL_SEARCH_DATA } from "@/constants";
 import { useCallback, useEffect, useState } from "react";
-
-type Params = {
-  data: SearchDataType;
-  query: string;
-  pageNum: number;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  setError: React.Dispatch<React.SetStateAction<boolean>>;
-  setData: React.Dispatch<React.SetStateAction<SearchDataType>>;
-  setPageNum: React.Dispatch<React.SetStateAction<number>>;
-};
-
-export const initialSearchData = {
-  page: 1,
-  results: [],
-  total_pages: 0,
-  total_results: 0,
-};
 
 export const useSearchDataFetching = ({
   data,
@@ -26,7 +10,7 @@ export const useSearchDataFetching = ({
   setError,
   setData,
   setPageNum,
-}: Params) => {
+}: FetchSearchDataParams) => {
   const [secondPageData, setSecondPageData] = useState(false);
 
   const fetchInitialPageData = useCallback(async () => {
@@ -40,9 +24,9 @@ export const useSearchDataFetching = ({
     } catch (error: any) {
       setLoading(false);
       setError(true);
-      setData(initialSearchData);
+      setData(INITIAL_SEARCH_DATA);
     }
-  }, [query, pageNum, setLoading, setError, setData, setPageNum]);
+  }, [query, setLoading, setError, setData, setPageNum]);
 
   useEffect(() => {
     fetchInitialPageData();
