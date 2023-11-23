@@ -28,7 +28,7 @@ const Cast = ({ data, isLoading, isError }: Props) => {
   );
 
   const loadingSkeleton = useMemo(
-    () => makeSkeleton(skeletonItem, 4),
+    () => makeSkeleton(skeletonItem, 6),
     [skeletonItem]
   );
 

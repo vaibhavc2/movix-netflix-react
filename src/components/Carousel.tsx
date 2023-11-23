@@ -65,7 +65,7 @@ const Carousel = ({ data, isLoading, isError, endPoint, title }: Props) => {
   }, []);
 
   const loadingSkeleton = useMemo(
-    () => makeSkeleton(skeletonItem, 4),
+    () => makeSkeleton(skeletonItem, 5),
     [skeletonItem]
   );
 
