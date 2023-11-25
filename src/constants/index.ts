@@ -27,4 +27,10 @@ export const SORT_BY_DATA = [
 ];
 
 export const BASE_TITLE = "Movix - Movies & Shows";
+
 export const SITE_NAME = "Movix";
+
+export const BASE_DESCRIPTION =
+  "Movix is a movie and TV shows database. Discover, rate and save your favourite movies and TV shows.";
+
+export const YOUTUBE_BASE_URL = "https://youtu.be/";

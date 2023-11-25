@@ -11,8 +11,9 @@ import Genres from "@/components/Genres";
 import GoogleSearchLink from "@/components/GoogleSearchLink";
 import LazyImg from "@/components/LazyImg";
 import VideoPopup from "@/components/VideoPopup";
-import { SITE_NAME } from "@/constants";
+import { SITE_NAME, YOUTUBE_BASE_URL } from "@/constants";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
+import { DetectDevice } from "@/utils/device/detectDevice.util";
 import { memo, useEffect, useState } from "react";
 import { PlayIcon } from "../play-icon/PlayIcon";
 
@@ -129,16 +130,36 @@ const DetailsBanner = ({ video, crew, loadingStates }: Props) => {
                       <div className="cursor-default">
                         <CircleRating rating={data.vote_average.toFixed(1)} />
                       </div>
-                      <div
-                        className="playbtn"
-                        onClick={() => {
-                          setShow(true);
-                          setVideoId(video?.key);
-                        }}
-                      >
-                        <PlayIcon />
-                        <span className="text">Watch Trailer</span>
-                      </div>
+                      {DetectDevice.isMobile() ? (
+                        <>
+                          <a
+                            href={`${YOUTUBE_BASE_URL}${video?.key}`}
+                            target="_blank"
+                          >
+                            <div
+                              className="playbtn"
+                              onClick={() => {
+                                setShow(true);
+                                setVideoId(video?.key);
+                              }}
+                            >
+                              <PlayIcon />
+                              <span className="text">Watch Trailer</span>
+                            </div>
+                          </a>
+                        </>
+                      ) : (
+                        <div
+                          className="playbtn"
+                          onClick={() => {
+                            setShow(true);
+                            setVideoId(video?.key);
+                          }}
+                        >
+                          <PlayIcon />
+                          <span className="text">Watch Trailer</span>
+                        </div>
+                      )}
                     </div>
 
                     <div className="overview">
@@ -262,7 +283,9 @@ const DetailsBanner = ({ video, crew, loadingStates }: Props) => {
                   </div>
                 </div>
 
-                {!videoIsLoading && !videoIsError ? (
+                {!videoIsLoading &&
+                !videoIsError &&
+                !DetectDevice.isMobile() ? (
                   <VideoPopup
                     show={show}
                     setShow={setShow}

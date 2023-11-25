@@ -3,8 +3,10 @@ import { memo, useCallback, useMemo, useState } from "react";
 import ContentWrapper from "@/components/ContentWrapper";
 import LazyImg from "@/components/LazyImg";
 import VideoPopup from "@/components/VideoPopup";
+import { YOUTUBE_BASE_URL } from "@/constants";
 import { strID } from "@/helpers/str-id.helper";
 import { useLoadingSkeleton } from "@/hooks/useLoadingSkeleton";
+import { DetectDevice } from "@/utils/device/detectDevice.util";
 import { PlayIcon } from "../play-icon/PlayIcon";
 
 type Props = {
@@ -58,7 +60,16 @@ const VideosSection = ({ data, isLoading, isError }: Props) => {
                         alt={video.name}
                         placeholder={video.key}
                       />
-                      <PlayIcon />
+                      {DetectDevice.isMobile() ? (
+                        <a
+                          href={`${YOUTUBE_BASE_URL}${video.key}`}
+                          target="_blank"
+                        >
+                          <PlayIcon />
+                        </a>
+                      ) : (
+                        <PlayIcon />
+                      )}
                     </div>
 
                     <div className="videoTitle">{video.name}</div>
@@ -71,12 +82,14 @@ const VideosSection = ({ data, isLoading, isError }: Props) => {
         )}
       </ContentWrapper>
 
-      <VideoPopup
-        show={show}
-        setShow={setShow}
-        videoId={videoId}
-        setVideoId={setVideoId}
-      />
+      {!isLoading && !isError && !DetectDevice.isMobile() ? (
+        <VideoPopup
+          show={show}
+          setShow={setShow}
+          setVideoId={setVideoId}
+          videoId={videoId}
+        />
+      ) : null}
     </div>
   );
 };
