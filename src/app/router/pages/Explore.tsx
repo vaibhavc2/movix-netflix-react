@@ -8,13 +8,15 @@ import "@/styles/scss/other/pages/explore.scss";
 import ContentWrapper from "@/components/ContentWrapper";
 import MovieCard from "@/components/MovieCard";
 import Spinner from "@/components/Spinner";
-import { INITIAL_SEARCH_DATA, SORT_BY_DATA } from "@/constants";
+import { BASE_TITLE, INITIAL_SEARCH_DATA, SORT_BY_DATA } from "@/constants";
 import { useExploreDataFetching } from "@/hooks/infinite-data-fetch/useExploreDataFetching";
 import { useApi } from "@/hooks/useApi";
+import useDocumentTitle from "@/hooks/useDocumentTitle";
 
 let filters = {};
 
 const Explore = () => {
+  useDocumentTitle(BASE_TITLE + " | Explore");
   const [data, setData] = useState<SearchDataType>(INITIAL_SEARCH_DATA);
   const [pageNum, setPageNum] = useState(1);
   const [loading, setLoading] = useState(true);

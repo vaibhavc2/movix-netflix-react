@@ -29,3 +29,4 @@ dist-ssr
 
 # don't ignore:
 !**/.env.example
+.vercel

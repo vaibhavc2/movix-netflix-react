@@ -4,12 +4,14 @@ import { useParams } from "react-router-dom";
 import ContentWrapper from "@/components/ContentWrapper";
 import MovieCard from "@/components/MovieCard";
 import Spinner from "@/components/Spinner";
-import { INITIAL_SEARCH_DATA } from "@/constants";
+import { BASE_TITLE, INITIAL_SEARCH_DATA } from "@/constants";
 import { useSearchDataFetching } from "@/hooks/infinite-data-fetch/useSearchDataFetching";
+import useDocumentTitle from "@/hooks/useDocumentTitle";
 import "@/styles/scss/other/pages/search.scss";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 const Search = () => {
+  useDocumentTitle(BASE_TITLE + " | Search");
   const [pageNum, setPageNum] = useState<number>(2); // page number '1' is already fetched in fetchInitialPageData in useSearchDataFetching.tsx
   const [data, setData] = useState<SearchDataType>(INITIAL_SEARCH_DATA);
   const [loading, setLoading] = useState<boolean>(true);

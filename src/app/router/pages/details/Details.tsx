@@ -1,6 +1,8 @@
 import { useApi } from "@/hooks/useApi";
 import { useParams } from "react-router-dom";
 
+import { BASE_TITLE } from "@/constants";
+import useDocumentTitle from "@/hooks/useDocumentTitle";
 import "@/styles/scss/other/pages/details.scss";
 import { memo } from "react";
 import Recommendation from "./carousels/Recommendation";
@@ -10,6 +12,7 @@ import DetailsBanner from "./details-banner/DetailsBanner";
 import VideosSection from "./videos-section/VideosSection";
 
 const Details = () => {
+  useDocumentTitle(BASE_TITLE + " | Details");
   const { mediaType, id } = useParams();
 
   const {

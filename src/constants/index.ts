@@ -25,3 +25,5 @@ export const SORT_BY_DATA = [
   { value: "primary_release_date.asc", label: "Release Date Ascending" },
   { value: "original_title.asc", label: "Title (A-Z)" },
 ];
+
+export const BASE_TITLE = "Movix - Movies & Shows";
