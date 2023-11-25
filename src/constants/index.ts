@@ -27,3 +27,4 @@ export const SORT_BY_DATA = [
 ];
 
 export const BASE_TITLE = "Movix - Movies & Shows";
+export const SITE_NAME = "Movix";

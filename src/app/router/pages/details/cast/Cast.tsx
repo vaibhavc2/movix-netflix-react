@@ -1,5 +1,6 @@
 import avatar from "@/assets/avatar.png";
 import ContentWrapper from "@/components/ContentWrapper";
+import GoogleSearchLink from "@/components/GoogleSearchLink";
 import LazyImg from "@/components/LazyImg";
 import { strID } from "@/helpers/str-id.helper";
 import { useLoadingSkeleton } from "@/hooks/useLoadingSkeleton";
@@ -41,20 +42,30 @@ const Cast = ({ data, isLoading, isError }: Props) => {
             {data &&
               data?.map((item: any, index) => (
                 <div className="listItem" key={item.id + "-" + index}>
-                  <div className="profileImg">
-                    <LazyImg
-                      src={
-                        item.profile_path
-                          ? `${url.profile}${item.profile_path}`
-                          : avatar
-                      }
-                      alt={item.name}
-                      placeholder={avatar}
-                    />
+                  <div className="profileImg hover:border-2 hover:border-slate-200">
+                    <GoogleSearchLink searchQuery={item.name}>
+                      <LazyImg
+                        src={
+                          item.profile_path
+                            ? `${url.profile}${item.profile_path}`
+                            : avatar
+                        }
+                        alt={item.name}
+                        placeholder={avatar}
+                      />
+                    </GoogleSearchLink>
                   </div>
                   <div className="textBlock">
-                    <div className="name">{item.name}</div>
-                    <div className="character">{item.character}</div>
+                    <GoogleSearchLink searchQuery={item.name}>
+                      <div className="name hover:underline">{item.name}</div>
+                    </GoogleSearchLink>
+                    <GoogleSearchLink
+                      searchQuery={`${item.name} playing role of ${item.character}`}
+                    >
+                      <div className="character hover:underline">
+                        {item.character}
+                      </div>
+                    </GoogleSearchLink>
                   </div>
                 </div>
               ))}

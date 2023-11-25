@@ -8,9 +8,12 @@ import PosterFallback from "@/assets/no-poster.png";
 import CircleRating from "@/components/CircleRating";
 import ContentWrapper from "@/components/ContentWrapper";
 import Genres from "@/components/Genres";
+import GoogleSearchLink from "@/components/GoogleSearchLink";
 import LazyImg from "@/components/LazyImg";
 import VideoPopup from "@/components/VideoPopup";
-import { memo, useState } from "react";
+import { SITE_NAME } from "@/constants";
+import useDocumentTitle from "@/hooks/useDocumentTitle";
+import { memo, useEffect, useState } from "react";
 import { PlayIcon } from "../play-icon/PlayIcon";
 
 type Props = {
@@ -27,6 +30,8 @@ type Props = {
 const DetailsBanner = ({ video, crew, loadingStates }: Props) => {
   const [show, setShow] = useState(false);
   const [videoId, setVideoId] = useState<string | null>(null);
+  const [headTitle, setHeadTitle] = useState("");
+  const [dynamicTitle, setDynamicTitle] = useState("");
 
   const { mediaType, id } = useParams();
   const { url } = useAppSelector((state) => state.home);
@@ -36,6 +41,29 @@ const DetailsBanner = ({ video, crew, loadingStates }: Props) => {
   const { data, isLoading, isError } = useApi(`/${mediaType}/${id}`, [
     `details-${mediaType}-${id}`,
   ]);
+
+  // change title dynamically
+  useDocumentTitle(dynamicTitle);
+
+  // set head title for search query
+  useEffect(() => {
+    if (!isLoading && !isError && data) {
+      setHeadTitle(
+        `${data.title || data.name} (${dayjs(
+          data.release_date || data.first_air_date
+        ).format("YYYY")})`
+      );
+    }
+  }, [data, isLoading, isError]);
+
+  // change title dynamically
+  useEffect(() => {
+    setDynamicTitle(`${SITE_NAME} | ${headTitle}`);
+  }, [headTitle]);
+
+  useEffect(() => {
+    setDynamicTitle(`${SITE_NAME} | Details`);
+  }, []);
 
   const _genres: number[] = data?.genres?.map(
     (genre: { id: number }) => genre.id
@@ -71,32 +99,36 @@ const DetailsBanner = ({ video, crew, loadingStates }: Props) => {
                 <div className="content">
                   <div className="left">
                     {data.poster_path ? (
-                      <LazyImg
-                        className="posterImg"
-                        src={`${url.poster}${data.poster_path}`}
-                        alt=""
-                      />
+                      <GoogleSearchLink searchQuery={headTitle}>
+                        <LazyImg
+                          className="posterImg"
+                          src={`${url.poster}${data.poster_path}`}
+                          alt=""
+                        />
+                      </GoogleSearchLink>
                     ) : (
-                      <LazyImg
-                        className="posterImg"
-                        src={PosterFallback}
-                        alt=""
-                      />
+                      <GoogleSearchLink searchQuery={headTitle}>
+                        <LazyImg
+                          className="posterImg"
+                          src={PosterFallback}
+                          alt=""
+                        />
+                      </GoogleSearchLink>
                     )}
                   </div>
 
                   <div className="right">
-                    <div className="title">
-                      {`${data.title || data.name} (${dayjs(
-                        data.release_date || data.first_air_date
-                      ).format("YYYY")})`}
-                    </div>
+                    <GoogleSearchLink searchQuery={headTitle}>
+                      <div className="title hover:underline">{headTitle}</div>
+                    </GoogleSearchLink>
                     <div className="subtitle">{data.tagline}</div>
 
                     <Genres data={_genres} />
 
                     <div className="row">
-                      <CircleRating rating={data.vote_average.toFixed(1)} />
+                      <div className="cursor-default">
+                        <CircleRating rating={data.vote_average.toFixed(1)} />
+                      </div>
                       <div
                         className="playbtn"
                         onClick={() => {
@@ -152,10 +184,19 @@ const DetailsBanner = ({ video, crew, loadingStates }: Props) => {
                               </span>
                               <span className="text">
                                 {directors?.map((d: any, i: number) => (
-                                  <span key={i}>
-                                    {d.name}
-                                    {i < directors?.length - 1 ? ", " : ""}
-                                  </span>
+                                  <GoogleSearchLink
+                                    searchQuery={`${d.name} ${
+                                      mediaType === "movie"
+                                        ? "movies"
+                                        : "tv shows"
+                                    }`}
+                                    key={i}
+                                  >
+                                    <span key={i}>
+                                      {d.name}
+                                      {i < directors?.length - 1 ? ", " : ""}
+                                    </span>
+                                  </GoogleSearchLink>
                                 ))}
                               </span>
                             </div>
@@ -167,10 +208,19 @@ const DetailsBanner = ({ video, crew, loadingStates }: Props) => {
                               </span>
                               <span className="text">
                                 {writers?.map((w: any, i: number) => (
-                                  <span key={i}>
-                                    {w.name}
-                                    {i < writers?.length - 1 ? ", " : ""}
-                                  </span>
+                                  <GoogleSearchLink
+                                    searchQuery={`${w.name} ${
+                                      mediaType === "movie"
+                                        ? "movies"
+                                        : "tv shows"
+                                    }`}
+                                    key={i}
+                                  >
+                                    <span key={i}>
+                                      {w.name}
+                                      {i < writers?.length - 1 ? ", " : ""}
+                                    </span>
+                                  </GoogleSearchLink>
                                 ))}
                               </span>
                             </div>
@@ -194,10 +244,17 @@ const DetailsBanner = ({ video, crew, loadingStates }: Props) => {
                         </span>
                         <span className="text">
                           {data.created_by?.map((w: any, i: number) => (
-                            <span key={i}>
-                              {w.name}
-                              {i < data.created_by?.length - 1 ? ", " : ""}
-                            </span>
+                            <GoogleSearchLink
+                              searchQuery={`${w.name} ${
+                                mediaType === "movie" ? "movies" : "tv shows"
+                              }`}
+                              key={i}
+                            >
+                              <span key={i}>
+                                {w.name}
+                                {i < data.created_by?.length - 1 ? ", " : ""}
+                              </span>
+                            </GoogleSearchLink>
                           ))}
                         </span>
                       </div>
