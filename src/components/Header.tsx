@@ -11,6 +11,7 @@ import { useSearchClickHandler } from "@/hooks/useSearchClickHandler";
 import SearchInput from "./shared/SearchInput";
 
 import "@/styles/scss/other/components/header.scss";
+import { DetectDevice } from "@/utils/device/detectDevice.util";
 
 const Header = () => {
   const [show, setShow] = useState("top");
@@ -27,6 +28,11 @@ const Header = () => {
 
   const searchClickHandler = useSearchClickHandler(query, topSearchRef);
 
+  const searchMobileClickHandler = useCallback(() => {
+    setShowSearch(false);
+    searchClickHandler();
+  }, [searchClickHandler]);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
@@ -37,6 +43,7 @@ const Header = () => {
     if (currentScrollY > 200) {
       if (currentScrollY > lastScrollY && !mobileMenu) {
         setShow("hide");
+        setShowSearch(false);
       } else {
         setShow("show");
       }
@@ -61,7 +68,11 @@ const Header = () => {
     setMobileMenu(false);
     // if scroll is at the top and location is home, focus the main search input
     // else focus the search input in the header
-    if (lastScrollY < 200 && location.pathname === "/") {
+    if (
+      lastScrollY < 200 &&
+      location.pathname === "/" &&
+      DetectDevice.isMobile()
+    ) {
       focusMainSearch();
     } else {
       setShowSearch((prev) => !prev);
@@ -143,6 +154,7 @@ const Header = () => {
               searchQueryHandler={searchQueryHandler}
               inputRef={searchRef}
             >
+              <SearchIcon onClick={searchMobileClickHandler} />
               <XIcon onClick={() => setShowSearch(false)} />
             </SearchInput>
           </ContentWrapper>
