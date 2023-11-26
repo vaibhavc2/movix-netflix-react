@@ -20,6 +20,7 @@ const Header = () => {
   const [mobileMenu, setMobileMenu] = useState(false);
   const [query, setQuery] = useState("");
   const [showSearch, setShowSearch] = useState(false);
+  const [hideSearchIcon, setHideSearchIcon] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -31,12 +32,17 @@ const Header = () => {
 
   const searchMobileClickHandler = useCallback(() => {
     setShowSearch(false);
+    setHideSearchIcon(false);
     searchClickHandler();
   }, [searchClickHandler]);
 
-  // scroll to top when location changes
+  // scroll to top when location changes, unhide search icon, hide search bar
   useEffect(() => {
     window.scrollTo(0, 0);
+    setTimeout(() => {
+      setShowSearch(false);
+      setHideSearchIcon(false);
+    }, 100);
   }, [location]);
 
   const controlNavbar = useCallback(() => {
@@ -46,6 +52,7 @@ const Header = () => {
       if (currentScrollY > lastScrollY && !mobileMenu) {
         setShow("hide");
         setShowSearch(false);
+        setHideSearchIcon(false);
       } else {
         setShow("show");
       }
@@ -70,7 +77,9 @@ const Header = () => {
     ) {
       focusMainSearch();
     } else {
-      setShowSearch((prev) => !prev);
+      // setShowSearch((prev) => !prev);
+      setShowSearch(true);
+      setHideSearchIcon(true);
       setTimeout(() => focusSearch(), 100);
     }
   }, [setShowSearch, focusSearch, lastScrollY, location.pathname]);
@@ -78,6 +87,7 @@ const Header = () => {
   const openMobileMenu = () => {
     setMobileMenu(true);
     setShowSearch(false);
+    setHideSearchIcon(false);
   };
 
   const searchQueryHandler = useCallback(
@@ -85,7 +95,6 @@ const Header = () => {
       e.preventDefault();
       if (e.key === "Enter" && query.length > 0) {
         navigate(`/search/${query}`);
-        setTimeout(() => setShowSearch(false), 100);
       }
     },
     [query, navigate, setShowSearch, setQuery]
@@ -130,7 +139,7 @@ const Header = () => {
         </ul>
 
         <div className="mobileMenuItems">
-          <SearchIcon onClick={toggleSearch} />
+          {!hideSearchIcon && <SearchIcon onClick={toggleSearch} />}
           {mobileMenu ? (
             <XIcon onClick={() => setMobileMenu(false)} />
           ) : (
@@ -152,7 +161,12 @@ const Header = () => {
               <button type="button" onClick={searchMobileClickHandler}>
                 <SearchIcon />
               </button>
-              <XIcon onClick={() => setShowSearch(false)} />
+              <XIcon
+                onClick={() => {
+                  setShowSearch(false);
+                  setHideSearchIcon(false);
+                }}
+              />
             </SearchInput>
           </ContentWrapper>
         </div>
