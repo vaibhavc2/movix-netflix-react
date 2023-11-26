@@ -84,36 +84,36 @@ const Carousel = ({ data, isLoading, isError, endPoint, title }: Props) => {
 
         {!isLoading && !isError ? (
           <div className="carouselItems" ref={carouselRef}>
-            {data?.map((item) => {
-              const posterUrl = item.poster_path
-                ? `${url.poster}${item.poster_path}`
-                : PosterFallback;
-              return (
-                <div
-                  className="carouselItem"
-                  key={item.id}
-                  onClick={() =>
-                    navigate(`/${item.media_type || endPoint}/${item.id}`)
-                  }
-                >
-                  <div className="posterBlock">
-                    <LazyImg src={`${posterUrl}`} alt={item.title} />
-                    <CircleRating
-                      rating={Number(item.vote_average).toFixed(1)}
-                    />
-                    <Genres data={item.genre_ids.slice(0, 2)} />
-                  </div>
-                  <div className="textBlock">
-                    <div className="title">{item.title || item.name}</div>
-                    <div className="date">
-                      {dayjs(item.release_date || item.first_air_date).format(
-                        "MMM D, YYYY"
-                      )}
-                    </div>
+            {data?.map((item) => (
+              <div
+                className="carouselItem"
+                key={item.id}
+                onClick={() =>
+                  navigate(`/${item.media_type || endPoint}/${item.id}`)
+                }
+              >
+                <div className="posterBlock">
+                  <LazyImg
+                    src={`${url.poster}${item.poster_path}`}
+                    alt={item.title}
+                    onError={(e) => {
+                      e.preventDefault();
+                      e.currentTarget.src = PosterFallback;
+                    }}
+                  />
+                  <CircleRating rating={Number(item.vote_average).toFixed(1)} />
+                  <Genres data={item.genre_ids.slice(0, 2)} />
+                </div>
+                <div className="textBlock">
+                  <div className="title">{item.title || item.name}</div>
+                  <div className="date">
+                    {dayjs(item.release_date || item.first_air_date).format(
+                      "MMM D, YYYY"
+                    )}
                   </div>
                 </div>
-              );
-            })}
+              </div>
+            ))}
           </div>
         ) : (
           <div className="loadingSkeleton">{loadingSkeleton}</div>

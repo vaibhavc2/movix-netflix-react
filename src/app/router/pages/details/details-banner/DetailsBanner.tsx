@@ -99,23 +99,17 @@ const DetailsBanner = ({ video, crew, loadingStates }: Props) => {
               <ContentWrapper>
                 <div className="content">
                   <div className="left">
-                    {data.poster_path ? (
-                      <GoogleSearchLink searchQuery={headTitle}>
-                        <LazyImg
-                          className="posterImg"
-                          src={`${url.poster}${data.poster_path}`}
-                          alt=""
-                        />
-                      </GoogleSearchLink>
-                    ) : (
-                      <GoogleSearchLink searchQuery={headTitle}>
-                        <LazyImg
-                          className="posterImg"
-                          src={PosterFallback}
-                          alt=""
-                        />
-                      </GoogleSearchLink>
-                    )}
+                    <GoogleSearchLink searchQuery={headTitle}>
+                      <LazyImg
+                        className="posterImg"
+                        src={`${url.poster}${data.poster_path}`}
+                        alt=""
+                        onError={(e) => {
+                          e.preventDefault();
+                          e.currentTarget.src = PosterFallback;
+                        }}
+                      />
+                    </GoogleSearchLink>
                   </div>
 
                   <div className="right">

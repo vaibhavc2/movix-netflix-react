@@ -51,6 +51,10 @@ const Cast = ({ data, isLoading, isError }: Props) => {
                             : avatar
                         }
                         alt={item.name}
+                        onError={(e) => {
+                          e.preventDefault();
+                          e.currentTarget.src = avatar;
+                        }}
                       />
                     </GoogleSearchLink>
                   </div>

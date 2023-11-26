@@ -18,16 +18,21 @@ type Props = {
 const MovieCard = ({ data, fromSearch, mediaType }: Props) => {
   const { url } = useAppSelector((state) => state.home);
   const navigate = useNavigate();
-  const posterUrl = data.poster_path
-    ? url.poster + data.poster_path
-    : PosterFallback;
   return (
     <div
       className="movieCard"
       onClick={() => navigate(`/${data.media_type || mediaType}/${data.id}`)}
     >
       <div className="posterBlock">
-        <LazyImg className="posterImg" src={posterUrl} />
+        <LazyImg
+          className="posterImg"
+          src={`${url.poster}${data.poster_path}`}
+          alt={data.title || data.name}
+          onError={(e) => {
+            e.preventDefault();
+            e.currentTarget.src = PosterFallback;
+          }}
+        />
         {!fromSearch && (
           <>
             <CircleRating rating={data.vote_average.toFixed(1)} />
