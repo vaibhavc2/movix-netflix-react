@@ -10,6 +10,7 @@ import { useInputRef } from "@/hooks/useInputRef";
 import { useSearchClickHandler } from "@/hooks/useSearchClickHandler";
 import SearchInput from "./shared/SearchInput";
 
+import { useScrollEvent } from "@/hooks/useScrollEvent";
 import "@/styles/scss/other/components/header.scss";
 import { DetectDevice } from "@/utils/device/detectDevice.util";
 
@@ -33,6 +34,7 @@ const Header = () => {
     searchClickHandler();
   }, [searchClickHandler]);
 
+  // scroll to top when location changes
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
@@ -54,15 +56,8 @@ const Header = () => {
     setLastScrollY(currentScrollY);
   }, [lastScrollY, setLastScrollY, mobileMenu, setShow]);
 
-  useEffect(
-    useCallback(() => {
-      window.addEventListener("scroll", controlNavbar);
-      return () => {
-        window.removeEventListener("scroll", controlNavbar);
-      };
-    }, [lastScrollY, setLastScrollY, controlNavbar]),
-    [lastScrollY]
-  );
+  // add scroll event listener using custom hook
+  useScrollEvent(controlNavbar);
 
   const toggleSearch = useCallback(() => {
     setMobileMenu(false);

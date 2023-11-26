@@ -3,8 +3,10 @@ import LazyImg from "@/components/LazyImg";
 import SearchInput from "@/components/shared/SearchInput";
 import { useApi } from "@/hooks/useApi";
 import { useInputRef } from "@/hooks/useInputRef";
+import { useScrollEvent } from "@/hooks/useScrollEvent";
 import { useSearchClickHandler } from "@/hooks/useSearchClickHandler";
 import { useAppSelector } from "@/store/store";
+import { DetectDevice } from "@/utils/device/detectDevice.util";
 import { KeyboardEvent, memo, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -13,6 +15,25 @@ let focusMainSearch: () => void;
 const HeroBanner = () => {
   const [background, setBackground] = useState<string>();
   const [query, setQuery] = useState("");
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [showMainSearch, setShowMainSearch] = useState(true);
+
+  const controlSearchVisibility = useCallback(() => {
+    const currentScrollY = window.scrollY;
+
+    if (currentScrollY > 200) {
+      if (currentScrollY > lastScrollY && DetectDevice.isMobile()) {
+        setShowMainSearch(false);
+      }
+    } else {
+      setShowMainSearch(true);
+    }
+
+    setLastScrollY(currentScrollY);
+  }, [lastScrollY, setLastScrollY]);
+
+  // add scroll event listener using custom hook
+  useScrollEvent(controlSearchVisibility);
 
   const navigate = useNavigate();
   const { ref, focus } = useInputRef();
@@ -65,17 +86,19 @@ const HeroBanner = () => {
               Millions of movies, TV shows and people to discover. Explore now.
             </span>
 
-            <SearchInput
-              placeholder="Search for a movie or tv show..."
-              className="text-gray-900"
-              setQuery={setQuery}
-              inputRef={ref}
-              searchQueryHandler={searchQueryHandler}
-            >
-              <button type="button" onClick={searchClickHandler}>
-                Search
-              </button>
-            </SearchInput>
+            {showMainSearch && (
+              <SearchInput
+                placeholder="Search for a movie or tv show..."
+                className="text-gray-900"
+                setQuery={setQuery}
+                inputRef={ref}
+                searchQueryHandler={searchQueryHandler}
+              >
+                <button type="button" onClick={searchClickHandler}>
+                  Search
+                </button>
+              </SearchInput>
+            )}
           </div>
         </ContentWrapper>
       </div>
