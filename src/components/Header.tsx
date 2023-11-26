@@ -154,7 +154,9 @@ const Header = () => {
               searchQueryHandler={searchQueryHandler}
               inputRef={searchRef}
             >
-              <SearchIcon onClick={searchMobileClickHandler} />
+              <button type="button" onClick={searchMobileClickHandler}>
+                <SearchIcon />
+              </button>
               <XIcon onClick={() => setShowSearch(false)} />
             </SearchInput>
           </ContentWrapper>
