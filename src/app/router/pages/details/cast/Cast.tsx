@@ -51,7 +51,6 @@ const Cast = ({ data, isLoading, isError }: Props) => {
                             : avatar
                         }
                         alt={item.name}
-                        placeholder={avatar}
                       />
                     </GoogleSearchLink>
                   </div>

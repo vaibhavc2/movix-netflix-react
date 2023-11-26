@@ -1,7 +1,9 @@
 import { memo, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
+import NoResults from "@/assets/no-results.png";
 import ContentWrapper from "@/components/ContentWrapper";
+import LazyImg from "@/components/LazyImg";
 import MovieCard from "@/components/MovieCard";
 import Spinner from "@/components/Spinner";
 import { INITIAL_SEARCH_DATA, SITE_NAME } from "@/constants";
@@ -75,8 +77,11 @@ const Search = () => {
               )}
             </>
           ) : (
-            <div className="resultNotFound">
-              <span>Sorry, Results not Found!</span>
+            <div className="resultNotFound flex flex-col">
+              <div>
+                <LazyImg className="w-28" src={NoResults} alt="No Results" />
+              </div>
+              <div>Sorry, Results not Found!</div>
             </div>
           )}
         </ContentWrapper>

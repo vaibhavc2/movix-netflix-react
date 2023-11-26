@@ -1,5 +1,6 @@
 import { memo, useCallback, useMemo, useState } from "react";
 
+import YoutubeFallback from "@/assets/youtube-fallback.jpg";
 import ContentWrapper from "@/components/ContentWrapper";
 import LazyImg from "@/components/LazyImg";
 import VideoPopup from "@/components/VideoPopup";
@@ -55,11 +56,14 @@ const VideosSection = ({ data, isLoading, isError }: Props) => {
                     }}
                   >
                     <div className="videoThumbnail">
-                      <LazyImg
-                        src={`https://img.youtube.com/vi/${video.key}/mqdefault.jpg`}
-                        alt={video.name}
-                        placeholder={video.key}
-                      />
+                      {video.key && (
+                        <LazyImg
+                          src={`https://img.youtube.com/vi/${video.key}/mqdefault.jpg`}
+                          alt={video.name}
+                          placeholderSrc={YoutubeFallback}
+                        />
+                      )}
+
                       {DetectDevice.isMobile() ? (
                         <a
                           href={`${YOUTUBE_BASE_URL}${video.key}`}
