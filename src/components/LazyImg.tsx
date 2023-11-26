@@ -7,9 +7,10 @@ type Props = {
   src?: string;
   alt?: string;
   placeholderSrc?: string;
+  onError?: React.ReactEventHandler<HTMLImageElement> | undefined;
 } & CommonProps;
 
-const LazyImg = ({ className, src, alt, placeholderSrc }: Props) => {
+const LazyImg = ({ className, src, alt, placeholderSrc, onError }: Props) => {
   return (
     <LazyLoadImage
       src={src}
@@ -17,6 +18,7 @@ const LazyImg = ({ className, src, alt, placeholderSrc }: Props) => {
       className={className + ""}
       effect="blur"
       placeholderSrc={placeholderSrc}
+      onError={onError}
     />
   );
 };

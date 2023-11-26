@@ -56,13 +56,15 @@ const VideosSection = ({ data, isLoading, isError }: Props) => {
                     }}
                   >
                     <div className="videoThumbnail">
-                      {video.key && (
-                        <LazyImg
-                          src={`https://img.youtube.com/vi/${video.key}/mqdefault.jpg`}
-                          alt={video.name}
-                          placeholderSrc={YoutubeFallback}
-                        />
-                      )}
+                      <LazyImg
+                        src={`https://img.youtube.com/vi/${video.key}/mqdefault.jpg`}
+                        alt={video.name}
+                        placeholderSrc={YoutubeFallback}
+                        onError={(e) => {
+                          e.preventDefault();
+                          e.currentTarget.src = YoutubeFallback;
+                        }}
+                      />
 
                       {DetectDevice.isMobile() ? (
                         <a
