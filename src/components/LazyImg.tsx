@@ -1,4 +1,4 @@
-import { LazyLoadImage } from "react-lazy-load-image-component";
+import { CommonProps, LazyLoadImage } from "react-lazy-load-image-component";
 
 import "react-lazy-load-image-component/src/effects/blur.css";
 
@@ -7,7 +7,7 @@ type Props = {
   src?: string;
   alt?: string;
   placeholderSrc?: string;
-};
+} & CommonProps;
 
 const LazyImg = ({ className, src, alt, placeholderSrc }: Props) => {
   return (

@@ -62,7 +62,11 @@ const Search = () => {
                     loader={<Spinner initial={false} />}
                   >
                     {data.results.map((item, index) => {
-                      if (item.media_type === "") return null;
+                      if (
+                        item.media_type !== "movie" &&
+                        item.media_type !== "tv"
+                      )
+                        return null;
                       return (
                         <MovieCard
                           key={index}

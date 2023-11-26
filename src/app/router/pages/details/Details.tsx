@@ -1,17 +1,24 @@
 import { useApi } from "@/hooks/useApi";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import "@/styles/scss/other/pages/details.scss";
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import Recommendation from "./carousels/Recommendation";
 import Similar from "./carousels/Similar";
 import Cast from "./cast/Cast";
 import DetailsBanner from "./details-banner/DetailsBanner";
 import VideosSection from "./videos-section/VideosSection";
 
+// title of the page is set dynamically in another component: DetailsBanner.tsx
+
 const Details = () => {
   const { mediaType, id } = useParams();
-  // title of the page is set dynamically in another component: DetailsBanner.tsx
+  const navigate = useNavigate();
+
+  // ?IMP handling invalid url when using dynamic routes
+  useEffect(() => {
+    if (mediaType !== "movie" && mediaType !== "tv") navigate("/404");
+  }, [mediaType]);
 
   const {
     data: videos,
