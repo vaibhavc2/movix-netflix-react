@@ -5,6 +5,7 @@ import Select from "react-select";
 
 import "@/styles/scss/other/pages/explore.scss";
 
+import NoResults from "@/assets/no-results.png";
 import ContentWrapper from "@/components/ContentWrapper";
 import MovieCard from "@/components/MovieCard";
 import Spinner from "@/components/Spinner";
@@ -24,11 +25,7 @@ const Explore = () => {
   const [error, setError] = useState(false);
   const { mediaType } = useParams();
   const mediaTypeString = String(mediaType);
-  const [dynamicTitle, setDynamicTitle] = useState(
-    `${SITE_NAME} - Explore ${
-      mediaTypeString === "movie" ? "movies" : "tv shows"
-    }`
-  );
+  const [dynamicTitle, setDynamicTitle] = useState("");
 
   useDocumentTitle(dynamicTitle);
 
@@ -115,7 +112,12 @@ const Explore = () => {
                 })}
               </InfiniteScroll>
             ) : (
-              <span className="resultNotFound">Sorry, Results not found!</span>
+              <div className="resultNotFound flex flex-col">
+                <div>
+                  <img className="w-28" src={NoResults} alt="No Results" />
+                </div>
+                <div>Sorry, Results not Found!</div>
+              </div>
             )}
           </>
         )}

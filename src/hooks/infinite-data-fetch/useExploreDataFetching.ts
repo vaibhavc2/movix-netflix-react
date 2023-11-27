@@ -35,7 +35,7 @@ export const useExploreDataFetching = ({
   useEffect(() => {
     filters = {};
     setData(INITIAL_SEARCH_DATA);
-    setPageNum(1);
+    setPageNum(2);
     setSortby([]);
     setGenre([]);
     fetchInitialPageData();
