@@ -2,7 +2,7 @@ import Carousel from "@/components/Carousel";
 import ContentWrapper from "@/components/ContentWrapper";
 import SwitchTabs from "@/components/SwitchTabs";
 import { useApi } from "@/hooks/useApi";
-import { useState } from "react";
+import { memo, useCallback, useState } from "react";
 
 const Trending = () => {
   const [endPoint, setEndPoint] = useState("day");
@@ -11,9 +11,12 @@ const Trending = () => {
     `trending-${endPoint}`,
   ]);
 
-  const onTabChange = (tab: string) => {
-    setEndPoint(tab.toLowerCase());
-  };
+  const onTabChange = useCallback(
+    (tab: string) => {
+      setEndPoint(tab.toLowerCase());
+    },
+    [setEndPoint]
+  );
 
   return (
     <div className="carouselSection">
@@ -26,4 +29,4 @@ const Trending = () => {
     </div>
   );
 };
-export default Trending;
+export default memo(Trending);

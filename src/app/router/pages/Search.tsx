@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import NoResults from "@/assets/no-results.png";
@@ -24,9 +24,12 @@ const Search = () => {
   useDocumentTitle(dynamicTitle);
 
   // change title dynamically
-  useEffect(() => {
-    setDynamicTitle(`${SITE_NAME} - Search '${stringQuery}'`);
-  }, [stringQuery]);
+  useEffect(
+    useCallback(() => {
+      setDynamicTitle(`${SITE_NAME} - Search '${stringQuery}'`);
+    }, [stringQuery, setDynamicTitle]),
+    [stringQuery]
+  );
 
   const fetchNextPageData = useSearchDataFetching({
     data,

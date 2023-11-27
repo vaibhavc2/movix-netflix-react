@@ -14,7 +14,7 @@ import VideoPopup from "@/components/VideoPopup";
 import { SITE_NAME, YOUTUBE_BASE_URL } from "@/constants";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 import { DetectDevice } from "@/utils/device/detectDevice.util";
-import { memo, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { PlayIcon } from "../play-icon/PlayIcon";
 
 type Props = {
@@ -47,24 +47,34 @@ const DetailsBanner = ({ video, crew, loadingStates }: Props) => {
   useDocumentTitle(dynamicTitle);
 
   // set head title for search query
-  useEffect(() => {
-    if (!isLoading && !isError && data) {
-      setHeadTitle(
-        `${data.title || data.name} (${dayjs(
-          data.release_date || data.first_air_date
-        ).format("YYYY")})`
-      );
-    }
-  }, [data, isLoading, isError]);
+  useEffect(
+    useCallback(() => {
+      if (!isLoading && !isError && data) {
+        setHeadTitle(
+          `${data.title || data.name} (${dayjs(
+            data.release_date || data.first_air_date
+          ).format("YYYY")})`
+        );
+      }
+    }, [data, isLoading, isError]),
+    [data, isLoading, isError]
+  );
 
   // change title dynamically
-  useEffect(() => {
-    setDynamicTitle(`${SITE_NAME} | ${headTitle}`);
-  }, [headTitle]);
+  useEffect(
+    useCallback(() => {
+      setDynamicTitle(`${SITE_NAME} | ${headTitle}`);
+    }, [setDynamicTitle, headTitle]),
+    [headTitle]
+  );
 
-  useEffect(() => {
-    setDynamicTitle(`${SITE_NAME} | Details`);
-  }, []);
+  // initial title
+  useEffect(
+    useCallback(() => {
+      setDynamicTitle(`${SITE_NAME} | Details`);
+    }, [setDynamicTitle]),
+    []
+  );
 
   const _genres: number[] = data?.genres?.map(
     (genre: { id: number }) => genre.id

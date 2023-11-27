@@ -2,7 +2,8 @@ import Carousel from "@/components/Carousel";
 import ContentWrapper from "@/components/ContentWrapper";
 import SwitchTabs from "@/components/SwitchTabs";
 import { useApi } from "@/hooks/useApi";
-import { useState } from "react";
+import { useEndPoint } from "@/hooks/useEndPoint";
+import { memo, useState } from "react";
 
 const Popular = () => {
   const [endPoint, setEndPoint] = useState("movie");
@@ -11,13 +12,7 @@ const Popular = () => {
     `popular-${endPoint}`,
   ]);
 
-  const onTabChange = (tab: string) => {
-    if (tab === "Movies") {
-      setEndPoint("movie");
-    } else {
-      setEndPoint("tv");
-    }
-  };
+  const { onTabChange } = useEndPoint(setEndPoint);
 
   return (
     <div className="carouselSection">
@@ -35,4 +30,4 @@ const Popular = () => {
     </div>
   );
 };
-export default Popular;
+export default memo(Popular);

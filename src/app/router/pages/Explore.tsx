@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useParams } from "react-router-dom";
 import Select from "react-select";
@@ -34,13 +34,16 @@ const Explore = () => {
   ]);
 
   // change title dynamically
-  useEffect(() => {
-    setDynamicTitle(
-      `${SITE_NAME} - Explore ${
-        mediaTypeString === "movie" ? "Movies" : "TV shows"
-      }`
-    );
-  }, [mediaTypeString]);
+  useEffect(
+    useCallback(() => {
+      setDynamicTitle(
+        `${SITE_NAME} - Explore ${
+          mediaTypeString === "movie" ? "Movies" : "TV shows"
+        }`
+      );
+    }, [setDynamicTitle, mediaTypeString]),
+    [mediaTypeString]
+  );
 
   const { onChange, fetchNextPageData } = useExploreDataFetching({
     data,

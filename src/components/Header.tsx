@@ -14,7 +14,11 @@ import { useScrollEvent } from "@/hooks/useScrollEvent";
 import "@/styles/scss/other/components/header.scss";
 import { DetectDevice } from "@/utils/device/detectDevice.util";
 
-const Header = () => {
+type Props = {
+  setShowPopupSearch: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const Header = ({ setShowPopupSearch }: Props) => {
   const [show, setShow] = useState("top");
   const [lastScrollY, setLastScrollY] = useState(0);
   const [mobileMenu, setMobileMenu] = useState(false);
@@ -37,13 +41,16 @@ const Header = () => {
   }, [searchClickHandler]);
 
   // scroll to top when location changes, unhide search icon, hide search bar
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    setTimeout(() => {
-      setShowSearch(false);
-      setHideSearchIcon(false);
-    }, 100);
-  }, [location]);
+  useEffect(
+    useCallback(() => {
+      window.scrollTo(0, 0);
+      setTimeout(() => {
+        setShowSearch(false);
+        setHideSearchIcon(false);
+      }, 100);
+    }, [setShowSearch, setHideSearchIcon]),
+    [location]
+  );
 
   const controlNavbar = useCallback(() => {
     const currentScrollY = window.scrollY;
@@ -122,18 +129,24 @@ const Header = () => {
           <li
             className={`ml-5 flex flex-row ${mobileMenu ? "hidden" : "block"}`}
           >
-            <input
-              type="text"
-              className={`w-48 rounded-3xl bg-gray-300 bg-opacity-30 px-3 py-[0.4rem] text-base text-gray-100 placeholder-slate-100 outline-none`}
-              placeholder="Search ..."
-              onChange={(e) => setQuery(e.currentTarget.value)}
-              onKeyUp={(e) => searchQueryHandler(e)}
-              ref={topSearchRef}
-            />
+            <div
+              className={`w-48 cursor-pointer rounded-3xl bg-gray-300 bg-opacity-30 px-3 py-[0.4rem] text-base text-gray-100 placeholder-slate-100 outline-none`}
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                if (e.target === e.currentTarget) setShowPopupSearch(true);
+              }}
+            >
+              {"(Ctrl + K) to Search"}
+            </div>
 
             <SearchIcon
-              className="mx-1 mt-1 text-white hover:text-[#da2f68]"
-              onClick={searchClickHandler}
+              className="mx-1 mt-1 cursor-pointer text-white hover:text-[#da2f68]"
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                setShowPopupSearch(true);
+              }}
             />
           </li>
         </ul>

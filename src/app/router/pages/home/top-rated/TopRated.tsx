@@ -2,7 +2,8 @@ import Carousel from "@/components/Carousel";
 import ContentWrapper from "@/components/ContentWrapper";
 import SwitchTabs from "@/components/SwitchTabs";
 import { useApi } from "@/hooks/useApi";
-import { useState } from "react";
+import { useEndPoint } from "@/hooks/useEndPoint";
+import { memo, useState } from "react";
 
 const TopRated = () => {
   const [endPoint, setEndPoint] = useState("movie");
@@ -11,13 +12,7 @@ const TopRated = () => {
     `top_rated-${endPoint}`,
   ]);
 
-  const onTabChange = (tab: string) => {
-    if (tab === "Movies") {
-      setEndPoint("movie");
-    } else {
-      setEndPoint("tv");
-    }
-  };
+  const { onTabChange } = useEndPoint(setEndPoint);
 
   return (
     <div className="carouselSection">
@@ -35,4 +30,4 @@ const TopRated = () => {
     </div>
   );
 };
-export default TopRated;
+export default memo(TopRated);
