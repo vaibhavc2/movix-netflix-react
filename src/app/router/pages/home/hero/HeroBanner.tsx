@@ -1,3 +1,4 @@
+import BannerImageFallback from "@/assets/banner-image-fallback.jpg";
 import ContentWrapper from "@/components/ContentWrapper";
 import LazyImg from "@/components/LazyImg";
 import SearchInput from "@/components/shared/SearchInput";
@@ -71,7 +72,14 @@ const HeroBanner = () => {
       <div className="heroBanner">
         {!isError && !isLoading && (
           <div className="backdrop-img">
-            <LazyImg src={background} alt="" />
+            <LazyImg
+              src={background}
+              alt=""
+              onError={(e) => {
+                e.preventDefault();
+                e.currentTarget.src = BannerImageFallback;
+              }}
+            />
           </div>
         )}
 
