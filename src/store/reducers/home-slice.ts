@@ -8,7 +8,7 @@ export const homeSlice = createSlice({
       poster: "",
       profile: "",
     },
-    genres: {},
+    genres: {} as any,
   },
   reducers: {
     setApiConfig: (state, action: PayloadAction<any>) => {
