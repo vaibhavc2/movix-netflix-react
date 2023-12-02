@@ -65,4 +65,5 @@ const Details = () => {
     </div>
   );
 };
+
 export default memo(Details);

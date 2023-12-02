@@ -1,4 +1,4 @@
-import { ComponentProps, KeyboardEvent } from "react";
+import { ComponentProps, KeyboardEvent, memo } from "react";
 
 type Props = {
   query: string;
@@ -66,4 +66,4 @@ const SearchInput = ({
     </>
   );
 };
-export default SearchInput;
+export default memo(SearchInput);

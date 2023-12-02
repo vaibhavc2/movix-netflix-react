@@ -1,4 +1,5 @@
 import "@/styles/scss/other/components/spinner.scss";
+import { memo } from "react";
 
 const Spinner = ({ initial }: { initial: boolean }) => {
   return (
@@ -17,4 +18,4 @@ const Spinner = ({ initial }: { initial: boolean }) => {
   );
 };
 
-export default Spinner;
+export default memo(Spinner);

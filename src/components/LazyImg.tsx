@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { CommonProps, LazyLoadImage } from "react-lazy-load-image-component";
 
 import "react-lazy-load-image-component/src/effects/blur.css";
@@ -23,4 +24,4 @@ const LazyImg = ({ className, src, alt, placeholderSrc, onError }: Props) => {
   );
 };
 
-export default LazyImg;
+export default memo(LazyImg);

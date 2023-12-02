@@ -3,6 +3,7 @@ import { BASE_TITLE } from "@/constants";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 
 import "@/styles/scss/other/pages/page-not-found.scss";
+import { memo } from "react";
 import RootLayout from "../layouts/RootLayout";
 
 const PageNotFound = () => {
@@ -21,4 +22,4 @@ const PageNotFound = () => {
   );
 };
 
-export default PageNotFound;
+export default memo(PageNotFound);

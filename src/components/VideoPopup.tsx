@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import ReactPlayer from "react-player/youtube";
 
 import "@/styles/scss/other/components/video-popup.scss";
@@ -34,4 +34,4 @@ const VideoPopup = ({ show, setShow, videoId, setVideoId }: Props) => {
   );
 };
 
-export default VideoPopup;
+export default memo(VideoPopup);

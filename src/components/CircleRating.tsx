@@ -2,6 +2,7 @@ import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
 import "@/styles/scss/other/components/circle-rating.scss";
+import { memo } from "react";
 
 const CircleRating = ({ rating }: { rating: string }) => {
   const ratingNumber = Number(rating);
@@ -20,4 +21,4 @@ const CircleRating = ({ rating }: { rating: string }) => {
   );
 };
 
-export default CircleRating;
+export default memo(CircleRating);

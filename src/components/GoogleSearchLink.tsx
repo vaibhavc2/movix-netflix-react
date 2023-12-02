@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 type Props = {
   children: React.ReactNode;
   searchQuery: string;
@@ -10,4 +12,4 @@ const GoogleSearchLink = ({ children, searchQuery }: Props) => {
     </a>
   );
 };
-export default GoogleSearchLink;
+export default memo(GoogleSearchLink);

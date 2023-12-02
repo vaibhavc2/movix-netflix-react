@@ -116,6 +116,7 @@ const HeroBanner = () => {
     </>
   );
 };
+
 export default memo(HeroBanner);
 
 export { focusMainSearch };

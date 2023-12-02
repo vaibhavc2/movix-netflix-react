@@ -5,6 +5,7 @@ import "@/styles/scss/other/components/movie-card.scss";
 
 import PosterFallback from "@/assets/no-poster.png";
 import { useAppSelector } from "@/store/store";
+import { memo } from "react";
 import CircleRating from "./CircleRating";
 import Genres from "./Genres";
 import LazyImg from "./LazyImg";
@@ -18,6 +19,7 @@ type Props = {
 const MovieCard = ({ data, fromSearch, mediaType }: Props) => {
   const { url } = useAppSelector((state) => state.home);
   const navigate = useNavigate();
+
   return (
     <div
       className="movieCard"
@@ -50,4 +52,4 @@ const MovieCard = ({ data, fromSearch, mediaType }: Props) => {
   );
 };
 
-export default MovieCard;
+export default memo(MovieCard);
