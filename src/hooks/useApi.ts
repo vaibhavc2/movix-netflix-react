@@ -7,6 +7,10 @@ export const useApi = (url: any, queryKey: any, params?: any) => {
     queryFn: async () => {
       return (await tmdbAPI.fetchData(url, params)) as any;
     },
+    // retry: 1,
+    // refetchOnWindowFocus: false,
+    // refetchOnMount: false,
+    // throwOnError: true,
   });
 
   return query;

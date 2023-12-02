@@ -4,10 +4,14 @@ import PopupSearch from "@/components/PopupSearch";
 import { useGlobalSearch } from "@/hooks/useGlobalSearch";
 import { useInitialConfApi } from "@/hooks/useInitialConfApi";
 import { DetectDevice } from "@/utils/device/detectDevice.util";
-import { memo, useState } from "react";
+import React, { memo, useState } from "react";
 import { Outlet } from "react-router-dom";
 
-const RootLayout = () => {
+interface Props {
+  children: typeof Outlet | React.ReactNode;
+}
+
+const RootLayout = ({ children }: Props) => {
   const [showPopupSearch, setShowPopupSearch] = useState(false);
   const isPC = !DetectDevice.isMobile();
 
@@ -20,7 +24,7 @@ const RootLayout = () => {
         <PopupSearch setShowPopupSearch={setShowPopupSearch} />
       )}
       <Header setShowPopupSearch={setShowPopupSearch} />
-      <Outlet />
+      {children}
       <Footer />
     </>
   );
