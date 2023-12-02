@@ -2,10 +2,12 @@ import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 import { homeSlice } from "./reducers/home-slice";
+import { searchSlice } from "./reducers/search-slice";
 
 export const store = configureStore({
   reducer: {
     home: homeSlice.reducer,
+    search: searchSlice.reducer,
   },
 });
 

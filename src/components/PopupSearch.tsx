@@ -1,15 +1,19 @@
+import { setQuery } from "@/store/reducers/search-slice";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 import "@/styles/scss/other/components/popup-search.scss";
 import { XIcon } from "lucide-react";
 import React, { KeyboardEvent, memo } from "react";
 import { useNavigate } from "react-router-dom";
+import SearchInput from "./shared/SearchInput";
 
 type Props = {
   setShowPopupSearch: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const PopupSearch = ({ setShowPopupSearch }: Props) => {
-  const [query, setQuery] = React.useState("");
   const searchRef = React.useRef<HTMLInputElement>(null);
+  const { query } = useAppSelector((state) => state.search);
+  const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
 
@@ -32,14 +36,15 @@ const PopupSearch = ({ setShowPopupSearch }: Props) => {
         }}
       >
         <div className="popup rounded-full border-2 border-blue-300 bg-gray-900 text-gray-200">
-          <input
-            type="text"
+          <SearchInput
             placeholder="Search for a movie or tv show..."
-            className="w-[30rem] bg-gray-900 text-xl text-blue-200 outline-none"
-            autoFocus
+            inputClassName="w-[30rem] bg-gray-900 text-xl text-blue-200 outline-none"
             ref={searchRef}
-            onChange={(e) => setQuery(e.currentTarget.value)}
-            onKeyUp={(e) => searchQueryHandler(e)}
+            query={query}
+            autoFocus
+            setQuery={(query: string) => dispatch(setQuery(query))}
+            searchQueryHandler={searchQueryHandler}
+            onlyInput
           />
           <button type="button" onClick={() => setShowPopupSearch(false)}>
             <XIcon className="mb-[-4px] scale-75" />

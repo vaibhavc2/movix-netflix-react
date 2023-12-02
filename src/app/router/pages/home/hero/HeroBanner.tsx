@@ -6,7 +6,8 @@ import { useApi } from "@/hooks/useApi";
 import { useInputRef } from "@/hooks/useInputRef";
 import { useScrollEvent } from "@/hooks/useScrollEvent";
 import { useSearchClickHandler } from "@/hooks/useSearchClickHandler";
-import { useAppSelector } from "@/store/store";
+import { setQuery } from "@/store/reducers/search-slice";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 import { DetectDevice } from "@/utils/device/detectDevice.util";
 import { KeyboardEvent, memo, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -15,9 +16,10 @@ let focusMainSearch: () => void;
 
 const HeroBanner = () => {
   const [background, setBackground] = useState<string>();
-  const [query, setQuery] = useState("");
   const [lastScrollY, setLastScrollY] = useState(0);
   const [showMainSearch, setShowMainSearch] = useState(true);
+  const { query } = useAppSelector((state) => state.search);
+  const dispatch = useAppDispatch();
 
   const controlSearchVisibility = useCallback(() => {
     const currentScrollY = window.scrollY;
@@ -98,7 +100,8 @@ const HeroBanner = () => {
               <SearchInput
                 placeholder="Search for a movie or tv show..."
                 className="text-gray-900"
-                setQuery={setQuery}
+                query={query}
+                setQuery={(query: string) => dispatch(setQuery(query))}
                 inputRef={ref}
                 searchQueryHandler={searchQueryHandler}
               >

@@ -8,6 +8,8 @@ import ContentWrapper from "@/components/ContentWrapper";
 import { focusMainSearch } from "@/app/router/pages/home/hero/HeroBanner";
 import { useInputRef } from "@/hooks/useInputRef";
 import { useSearchClickHandler } from "@/hooks/useSearchClickHandler";
+import { setQuery } from "@/store/reducers/search-slice";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 import SearchInput from "./shared/SearchInput";
 
 import { useScrollEvent } from "@/hooks/useScrollEvent";
@@ -22,9 +24,10 @@ const Header = ({ setShowPopupSearch }: Props) => {
   const [show, setShow] = useState("top");
   const [lastScrollY, setLastScrollY] = useState(0);
   const [mobileMenu, setMobileMenu] = useState(false);
-  const [query, setQuery] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [hideSearchIcon, setHideSearchIcon] = useState(false);
+  const { query } = useAppSelector((state) => state.search);
+  const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -104,7 +107,7 @@ const Header = ({ setShowPopupSearch }: Props) => {
         navigate(`/search/${query}`);
       }
     },
-    [query, navigate, setShowSearch, setQuery]
+    [query, navigate, setShowSearch]
   );
 
   const navigationHandler = (route: string) => {
@@ -167,7 +170,8 @@ const Header = ({ setShowPopupSearch }: Props) => {
             <SearchInput
               className="backdrop-blur"
               placeholder="Search for a movie or tv show..."
-              setQuery={setQuery}
+              query={query}
+              setQuery={(query: string) => dispatch(setQuery(query))}
               searchQueryHandler={searchQueryHandler}
               inputRef={searchRef}
             >

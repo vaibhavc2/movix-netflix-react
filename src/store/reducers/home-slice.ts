@@ -1,17 +1,15 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-const initialState: InitialHomeState = {
-  url: {
-    backdrop: "",
-    poster: "",
-    profile: "",
-  },
-  genres: {},
-};
-
 export const homeSlice = createSlice({
   name: "home",
-  initialState: initialState,
+  initialState: {
+    url: {
+      backdrop: "",
+      poster: "",
+      profile: "",
+    },
+    genres: {},
+  },
   reducers: {
     setApiConfig: (state, action: PayloadAction<any>) => {
       state.url = action.payload;
@@ -23,5 +21,3 @@ export const homeSlice = createSlice({
 });
 
 export const { setApiConfig, setGenres } = homeSlice.actions;
-
-export default homeSlice.reducer;
