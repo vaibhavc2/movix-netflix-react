@@ -61,15 +61,16 @@ const Header = ({ setShowPopupSearch }: Props) => {
     if (currentScrollY > 200) {
       if (currentScrollY > lastScrollY && !mobileMenu) {
         setShow("hide");
-        setShowSearch(false);
-        setHideSearchIcon(false);
       } else {
         setShow("show");
       }
     } else {
       setShow("top");
     }
-
+    // show the search bar and hide the search icon when scroll event is triggered
+    setShowSearch(false);
+    setHideSearchIcon(false);
+    // set the last scroll position
     setLastScrollY(currentScrollY);
   }, [lastScrollY, setLastScrollY, mobileMenu, setShow]);
 
