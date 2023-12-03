@@ -1,3 +1,4 @@
+import { useDebounce } from "@/hooks/useDebounce";
 import { setQuery } from "@/store/reducers/search-slice";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import "@/styles/scss/other/components/popup-search.scss";
@@ -14,13 +15,14 @@ const PopupSearch = ({ setShowPopupSearch }: Props) => {
   const searchRef = React.useRef<HTMLInputElement>(null);
   const { query } = useAppSelector((state) => state.search);
   const dispatch = useAppDispatch();
+  const debouncedQuery = useDebounce(query, 500);
 
   const navigate = useNavigate();
 
   const searchQueryHandler = (e: KeyboardEvent<HTMLInputElement>) => {
     e.preventDefault();
-    if (e.key === "Enter" && query.length > 0) {
-      navigate(`/search/${query}`);
+    if (e.key === "Enter" && debouncedQuery.length > 0) {
+      navigate(`/search/${debouncedQuery}`);
       setShowPopupSearch(false);
     }
   };
