@@ -13,6 +13,7 @@ import { INITIAL_SEARCH_DATA, SITE_NAME, SORT_BY_DATA } from "@/constants";
 import { useExploreDataFetching } from "@/hooks/infinite-data-fetch/useExploreDataFetching";
 import { useApi } from "@/hooks/useApi";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
+import { useAppSelector } from "@/store/store";
 
 let filters = {};
 
@@ -20,12 +21,13 @@ const Explore = () => {
   const [data, setData] = useState<SearchDataType>(INITIAL_SEARCH_DATA);
   const [pageNum, setPageNum] = useState(1);
   const [loading, setLoading] = useState(true);
-  const [genre, setGenre] = useState<any>([]);
-  const [sortby, setSortby] = useState<any>([]);
   const [error, setError] = useState(false);
   const { mediaType } = useParams();
   const mediaTypeString = String(mediaType);
   const [dynamicTitle, setDynamicTitle] = useState("");
+  const { movie, tv } = useAppSelector((state) => state.explore);
+  const { sortedBy: movieSortBy, selectedGenres: movieGenres } = movie;
+  const { sortedBy: tvSortBy, selectedGenres: tvGenres } = tv;
 
   useDocumentTitle(dynamicTitle);
 
@@ -54,8 +56,6 @@ const Explore = () => {
     setPageNum,
     mediaType: mediaTypeString,
     filters,
-    setSortby,
-    setGenre,
   });
 
   return (
@@ -69,7 +69,7 @@ const Explore = () => {
             <Select
               isMulti
               name="genres"
-              value={genre}
+              value={mediaType === "tv" ? tvGenres : movieGenres}
               closeMenuOnSelect={false}
               options={genresData?.genres}
               getOptionLabel={(option: any) => option.name}
@@ -81,7 +81,7 @@ const Explore = () => {
             />
             <Select
               name="sortby"
-              value={sortby}
+              value={mediaType === "tv" ? tvSortBy : movieSortBy}
               options={SORT_BY_DATA}
               onChange={onChange}
               isClearable={true}

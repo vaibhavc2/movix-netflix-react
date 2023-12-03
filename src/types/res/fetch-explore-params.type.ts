@@ -7,6 +7,4 @@ type FetchExploreDataParams = {
   setPageNum: React.Dispatch<React.SetStateAction<number>>;
   mediaType: string;
   filters: any;
-  setSortby: React.Dispatch<React.SetStateAction<any>>;
-  setGenre: React.Dispatch<React.SetStateAction<any>>;
 };

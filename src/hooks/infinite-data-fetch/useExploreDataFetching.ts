@@ -1,5 +1,12 @@
 import { tmdbAPI } from "@/api/tmdb.api";
 import { INITIAL_SEARCH_DATA } from "@/constants";
+import {
+  setMovieSelectedGenres,
+  setMovieSortedBy,
+  setTVSelectedGenres,
+  setTVSortedBy,
+} from "@/store/reducers/explore-slice";
+import { useAppDispatch } from "@/store/store";
 import { useEffect, useState } from "react";
 
 export const useExploreDataFetching = ({
@@ -11,10 +18,15 @@ export const useExploreDataFetching = ({
   setPageNum,
   mediaType,
   filters,
-  setSortby,
-  setGenre,
 }: FetchExploreDataParams) => {
   const [secondPageData, setSecondPageData] = useState(false);
+  const dispatch = useAppDispatch();
+  const setMovieGenres = (gen: string[]) =>
+    dispatch(setMovieSelectedGenres(gen));
+  const setTVGenres = (gen: string[]) => dispatch(setTVSelectedGenres(gen));
+  const setMovieSortby = (sort: SortValue | null) =>
+    dispatch(setMovieSortedBy(sort));
+  const setTVSortby = (sort: SortValue | null) => dispatch(setTVSortedBy(sort));
 
   const fetchInitialPageData = async () => {
     try {
@@ -36,8 +48,6 @@ export const useExploreDataFetching = ({
     filters = {};
     setData(INITIAL_SEARCH_DATA);
     setPageNum(2);
-    setSortby([]);
-    setGenre([]);
     fetchInitialPageData();
   }, [mediaType]);
 
@@ -77,7 +87,8 @@ export const useExploreDataFetching = ({
 
   const onChange = (selectedItems: any, action: any) => {
     if (action.name === "sortby") {
-      setSortby(selectedItems);
+      if (mediaType === "movie") setMovieSortby(selectedItems);
+      else setTVSortby(selectedItems);
       if (action.action !== "clear") {
         filters.sort_by = selectedItems.value;
       } else {
@@ -86,7 +97,8 @@ export const useExploreDataFetching = ({
     }
 
     if (action.name === "genres") {
-      setGenre(selectedItems);
+      if (mediaType === "movie") setMovieGenres(selectedItems);
+      else setTVGenres(selectedItems);
       if (action.action !== "clear") {
         let genreId = selectedItems.map((g: any) => g.id);
         genreId = JSON.stringify(genreId).slice(1, -1);
