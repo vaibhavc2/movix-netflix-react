@@ -19,7 +19,7 @@ const RootLayout = ({ children }: Props) => {
   useDetectDevice(); // custom hook to detect device
   useInitialConfApi(); // custom hook to fetch initial configs
 
-  if (isPC) useGlobalSearch({ setShowPopupSearch, showPopupSearch });
+  useGlobalSearch({ setShowPopupSearch, showPopupSearch });
 
   return (
     <>
