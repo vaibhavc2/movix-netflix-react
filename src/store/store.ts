@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
+import { deviceSlice } from "./reducers/device-slice";
 import { exploreSlice } from "./reducers/explore-slice";
 import { homeSlice } from "./reducers/home-slice";
 import { searchSlice } from "./reducers/search-slice";
@@ -10,6 +11,7 @@ export const store = configureStore({
     home: homeSlice.reducer,
     search: searchSlice.reducer,
     explore: exploreSlice.reducer,
+    device: deviceSlice.reducer,
   },
 });
 

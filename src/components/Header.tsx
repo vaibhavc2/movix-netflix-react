@@ -14,7 +14,6 @@ import SearchInput from "./shared/SearchInput";
 
 import { useScrollEvent } from "@/hooks/useScrollEvent";
 import "@/styles/scss/other/components/header.scss";
-import { DetectDevice } from "@/utils/device/detectDevice.util";
 
 type Props = {
   setShowPopupSearch: React.Dispatch<React.SetStateAction<boolean>>;
@@ -27,6 +26,8 @@ const Header = ({ setShowPopupSearch }: Props) => {
   const [showSearch, setShowSearch] = useState(false);
   const [hideSearchIcon, setHideSearchIcon] = useState(false);
   const { query } = useAppSelector((state) => state.search);
+  const { isMobile } = useAppSelector((state) => state.device);
+
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
@@ -81,11 +82,7 @@ const Header = ({ setShowPopupSearch }: Props) => {
     setMobileMenu(false);
     // if scroll is at the top and location is home, focus the main search input
     // else focus the search input in the header
-    if (
-      lastScrollY < 200 &&
-      location.pathname === "/" &&
-      DetectDevice.isMobile()
-    ) {
+    if (lastScrollY < 200 && location.pathname === "/" && isMobile) {
       focusMainSearch();
     } else {
       // setShowSearch((prev) => !prev);
@@ -174,7 +171,7 @@ const Header = ({ setShowPopupSearch }: Props) => {
               query={query}
               setQuery={(query: string) => dispatch(setQuery(query))}
               searchQueryHandler={searchQueryHandler}
-              inputRef={searchRef}
+              ref={searchRef}
             >
               <button type="button" onClick={searchMobileClickHandler}>
                 <SearchIcon />

@@ -8,7 +8,6 @@ import { useScrollEvent } from "@/hooks/useScrollEvent";
 import { useSearchClickHandler } from "@/hooks/useSearchClickHandler";
 import { setQuery } from "@/store/reducers/search-slice";
 import { useAppDispatch, useAppSelector } from "@/store/store";
-import { DetectDevice } from "@/utils/device/detectDevice.util";
 import { KeyboardEvent, memo, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -19,13 +18,14 @@ const HeroBanner = () => {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [showMainSearch, setShowMainSearch] = useState(true);
   const { query } = useAppSelector((state) => state.search);
+  const { isMobile } = useAppSelector((state) => state.device);
   const dispatch = useAppDispatch();
 
   const controlSearchVisibility = useCallback(() => {
     const currentScrollY = window.scrollY;
 
     if (currentScrollY > 200) {
-      if (currentScrollY > lastScrollY && DetectDevice.isMobile()) {
+      if (currentScrollY > lastScrollY && isMobile) {
         setShowMainSearch(false);
       }
     } else {
@@ -102,7 +102,7 @@ const HeroBanner = () => {
                 className="text-gray-900"
                 query={query}
                 setQuery={(query: string) => dispatch(setQuery(query))}
-                inputRef={ref}
+                ref={ref}
                 searchQueryHandler={searchQueryHandler}
               >
                 <button type="button" onClick={searchClickHandler}>

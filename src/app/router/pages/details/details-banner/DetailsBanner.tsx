@@ -13,7 +13,6 @@ import LazyImg from "@/components/LazyImg";
 import VideoPopup from "@/components/VideoPopup";
 import { SITE_NAME, YOUTUBE_BASE_URL } from "@/constants";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
-import { DetectDevice } from "@/utils/device/detectDevice.util";
 import { memo, useCallback, useEffect, useState } from "react";
 import { PlayIcon } from "../play-icon/PlayIcon";
 
@@ -33,6 +32,7 @@ const DetailsBanner = ({ video, crew, loadingStates }: Props) => {
   const [videoId, setVideoId] = useState<string | null>(null);
   const [headTitle, setHeadTitle] = useState("");
   const [dynamicTitle, setDynamicTitle] = useState("");
+  const { isMobile } = useAppSelector((state) => state.device);
 
   const { mediaType, id } = useParams();
   const { url } = useAppSelector((state) => state.home);
@@ -134,7 +134,7 @@ const DetailsBanner = ({ video, crew, loadingStates }: Props) => {
                       <div className="cursor-default">
                         <CircleRating rating={data.vote_average.toFixed(1)} />
                       </div>
-                      {DetectDevice.isMobile() ? (
+                      {isMobile ? (
                         <>
                           <a
                             href={`${YOUTUBE_BASE_URL}${video?.key}`}
@@ -287,9 +287,7 @@ const DetailsBanner = ({ video, crew, loadingStates }: Props) => {
                   </div>
                 </div>
 
-                {!videoIsLoading &&
-                !videoIsError &&
-                !DetectDevice.isMobile() ? (
+                {!videoIsLoading && !videoIsError && !isMobile ? (
                   <VideoPopup
                     show={show}
                     setShow={setShow}

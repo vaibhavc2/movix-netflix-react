@@ -7,7 +7,7 @@ import VideoPopup from "@/components/VideoPopup";
 import { YOUTUBE_BASE_URL } from "@/constants";
 import { strID } from "@/helpers/str-id.helper";
 import { useLoadingSkeleton } from "@/hooks/useLoadingSkeleton";
-import { DetectDevice } from "@/utils/device/detectDevice.util";
+import { useAppSelector } from "@/store/store";
 import { PlayIcon } from "../play-icon/PlayIcon";
 
 type Props = {
@@ -20,6 +20,7 @@ const VideosSection = ({ data, isLoading, isError }: Props) => {
   const [show, setShow] = useState(false);
   const [videoId, setVideoId] = useState<string | null>(null);
   const makeSkeleton = useLoadingSkeleton();
+  const { isMobile } = useAppSelector((state) => state.device);
 
   const skeletonItem = useCallback((value: any, key: number) => {
     return (
@@ -66,7 +67,7 @@ const VideosSection = ({ data, isLoading, isError }: Props) => {
                         }}
                       />
 
-                      {DetectDevice.isMobile() ? (
+                      {isMobile ? (
                         <a
                           href={`${YOUTUBE_BASE_URL}${video.key}`}
                           target="_blank"
@@ -88,7 +89,7 @@ const VideosSection = ({ data, isLoading, isError }: Props) => {
         )}
       </ContentWrapper>
 
-      {!isLoading && !isError && !DetectDevice.isMobile() ? (
+      {!isLoading && !isError && !isMobile ? (
         <VideoPopup
           show={show}
           setShow={setShow}
