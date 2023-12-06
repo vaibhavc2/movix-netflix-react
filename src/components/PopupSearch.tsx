@@ -49,10 +49,13 @@ const PopupSearch = ({ setShowPopupSearch }: Props) => {
     [debouncedQuery, navigate, setShowPopupSearch]
   );
 
-  const clearSearch = useCallback(() => {
-    dispatch(setQuery(""));
-    setTimeout(() => searchRef.current?.focus(), 50);
-  }, [dispatch, setQuery]);
+  const clearSearch = () => {
+    if (query.length === 0) setShowPopupSearch(false);
+    else {
+      dispatch(setQuery(""));
+      setTimeout(() => searchRef.current?.focus(), 50);
+    }
+  };
 
   return (
     <>
