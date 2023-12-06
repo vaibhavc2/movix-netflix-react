@@ -1,3 +1,5 @@
+@import "../../global/mixins.scss";
+
 .popup-container {
   position: fixed;
   top: 0;
@@ -19,4 +21,16 @@
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 800px;
+  @include md {
+    width: 70%;
+  }
+}
+
+.searchInput {
+  width: 94%;
+  @include md {
+    width: 95%;
+  }
 }
