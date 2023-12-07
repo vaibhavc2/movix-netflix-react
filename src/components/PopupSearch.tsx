@@ -126,11 +126,9 @@ const PopupSearch = ({ setShowPopupSearch }: Props) => {
                     <LazyImg
                       src={`${url.poster}${item.poster_path}`}
                       alt={item.title || item.name}
-                      onError={(e) => {
-                        e.preventDefault();
-                        e.currentTarget.src = PosterFallback;
-                      }}
-                      className="w-10 shadow-md shadow-slate-100 transition-all hover:w-[2.6rem]"
+                      fallbackSrc={PosterFallback}
+                      className="w-10 shadow-md shadow-slate-100 transition-all"
+                      width={"2.5rem"}
                     />
                     <div className="popup-item__info ml-5">
                       <div className="popup-item__info__title text-lg hover:underline">

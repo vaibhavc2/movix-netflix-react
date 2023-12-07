@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useCallback } from "react";
 import { CommonProps, LazyLoadImage } from "react-lazy-load-image-component";
 
 import "react-lazy-load-image-component/src/effects/blur.css";
@@ -8,10 +8,30 @@ type Props = {
   src?: string;
   alt?: string;
   placeholderSrc?: string;
+  fallbackSrc?: string;
   onError?: React.ReactEventHandler<HTMLImageElement> | undefined;
+  width?: string | number;
+  height?: string | number;
 } & CommonProps;
 
-const LazyImg = ({ className, src, alt, placeholderSrc, onError }: Props) => {
+const LazyImg = ({
+  className,
+  src,
+  alt,
+  placeholderSrc,
+  onError,
+  width,
+  height,
+  fallbackSrc,
+}: Props) => {
+  const errorHandler = useCallback(
+    (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+      e.preventDefault();
+      e.currentTarget.src = fallbackSrc || "";
+    },
+    [fallbackSrc]
+  );
+
   return (
     <LazyLoadImage
       src={src}
@@ -19,7 +39,9 @@ const LazyImg = ({ className, src, alt, placeholderSrc, onError }: Props) => {
       className={className + ""}
       effect="blur"
       placeholderSrc={placeholderSrc}
-      onError={onError}
+      onError={onError || errorHandler}
+      width={width || "100%"}
+      height={height || "100%"}
     />
   );
 };
