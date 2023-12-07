@@ -4,7 +4,7 @@ import { useDebounce } from "@/hooks/useDebounce";
 import { setQuery } from "@/store/reducers/search-slice";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import "@/styles/scss/other/components/popup-search.scss";
-import { XIcon } from "lucide-react";
+import { SearchIcon, XIcon } from "lucide-react";
 import React, { KeyboardEvent, memo, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import LazyImg from "./LazyImg";
@@ -49,6 +49,13 @@ const PopupSearch = ({ setShowPopupSearch }: Props) => {
     [debouncedQuery, navigate, setShowPopupSearch]
   );
 
+  const searchClickHandler = useCallback(() => {
+    if (debouncedQuery.length > 0) {
+      navigate(`/search/${debouncedQuery}`);
+      setShowPopupSearch(false);
+    }
+  }, [debouncedQuery, navigate, setShowPopupSearch]);
+
   const clearSearch = () => {
     if (query.length === 0) setShowPopupSearch(false);
     else {
@@ -84,8 +91,11 @@ const PopupSearch = ({ setShowPopupSearch }: Props) => {
             setQuery={(query: string) => dispatch(setQuery(query))}
             searchQueryHandler={searchQueryHandler}
           />
-          <button type="button" onClick={clearSearch}>
-            <XIcon className="scale-75" />
+          <button type="button" className="mx-1" onClick={searchClickHandler}>
+            <SearchIcon />
+          </button>
+          <button type="button" className="mx-1" onClick={clearSearch}>
+            <XIcon />
           </button>
         </div>
 
