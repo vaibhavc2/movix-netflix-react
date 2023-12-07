@@ -7,7 +7,7 @@ type Props = {
   setQuery: (query: string) => void;
   autoFocus?: boolean;
   inputClassName?: string;
-  onlyInput?: boolean;
+  noSearchInputClass?: boolean;
 } & ComponentProps<"input">;
 
 const SearchInput = forwardRef(
@@ -21,51 +21,32 @@ const SearchInput = forwardRef(
       className,
       autoFocus,
       inputClassName,
-      onlyInput,
+      noSearchInputClass,
     }: Props,
     inputRef
   ) => {
     return (
-      <>
-        {!onlyInput ? (
-          <div className={`searchInput ${className}`}>
-            <input
-              type="text"
-              placeholder={placeholder}
-              ref={inputRef as React.RefObject<HTMLInputElement>}
-              className={inputClassName}
-              onChange={(e) => setQuery(e.currentTarget.value)}
-              onKeyUp={(e) => searchQueryHandler(e)}
-              onFocus={(e) => {
-                e.currentTarget.value = query;
-                e.currentTarget.select();
-              }}
-              onBlur={(e) => {
-                e.currentTarget.value = "";
-              }}
-              autoFocus={autoFocus}
-            />
-            {children}
-          </div>
-        ) : (
-          <input
-            type="text"
-            placeholder={placeholder}
-            ref={inputRef as React.RefObject<HTMLInputElement>}
-            className={inputClassName}
-            onChange={(e) => setQuery(e.currentTarget.value)}
-            onKeyUp={(e) => searchQueryHandler(e)}
-            onFocus={(e) => {
-              e.currentTarget.value = query;
-              e.currentTarget.select();
-            }}
-            onBlur={(e) => {
-              e.currentTarget.value = "";
-            }}
-            autoFocus={autoFocus}
-          />
-        )}
-      </>
+      <div
+        className={`${noSearchInputClass ? "" : "searchInput"} ${className}`}
+      >
+        <input
+          type="text"
+          placeholder={placeholder}
+          ref={inputRef as React.RefObject<HTMLInputElement>}
+          className={inputClassName}
+          onChange={(e) => setQuery(e.currentTarget.value)}
+          onKeyUp={(e) => searchQueryHandler(e)}
+          onFocus={(e) => {
+            e.currentTarget.value = query;
+            e.currentTarget.select();
+          }}
+          onBlur={(e) => {
+            e.currentTarget.value = "";
+          }}
+          autoFocus={autoFocus}
+        />
+        {children}
+      </div>
     );
   }
 );

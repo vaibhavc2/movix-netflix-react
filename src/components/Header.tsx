@@ -184,6 +184,66 @@ const Header = ({ setShowPopupSearch }: Props) => {
               />
             </SearchInput>
           </ContentWrapper>
+
+          <ContentWrapper>
+            {/* <Spinner
+          initial={false}
+          className={`absolute left-1/2 top-[35rem] ${
+            !isLoading && !isError ? "hidden" : "block"
+          }`}
+        /> */}
+            <div
+              className={`popup absolute top-[27rem] flex flex-col items-center rounded-3xl border-2 border-blue-300 bg-gray-900 text-gray-200 ${
+                !isLoading && !isError && data?.results?.length > 0
+                  ? "block"
+                  : "hidden"
+              }`}
+            >
+              {!isLoading &&
+                !isError &&
+                data?.results?.length > 0 &&
+                searchData?.map((item: any, index: number) => {
+                  if (index > 4) return null;
+
+                  return (
+                    <div
+                      key={String(index) + "-" + String(item.id)}
+                      className="popup-item w-full cursor-pointer"
+                      onClick={() => {
+                        navigate(`/${item.media_type}/${item.id}`);
+                        setShowPopupSearch(false);
+                      }}
+                    >
+                      <div
+                        className={`flex w-full items-center border-gray-600 py-3 ${
+                          data?.results?.length > 4 && index > 0
+                            ? "border-t-2"
+                            : ""
+                        }`}
+                      >
+                        <LazyImg
+                          src={`${url.poster}${item.poster_path}`}
+                          alt={item.title || item.name}
+                          fallbackSrc={PosterFallback}
+                          className="w-10 shadow-md shadow-slate-100 transition-all"
+                          width={"2.5rem"}
+                        />
+                        <div className="popup-item__info ml-5">
+                          <div className="popup-item__info__title text-lg hover:underline">
+                            {item.name || item.title}
+                          </div>
+                          <div className="popup-item__info__type text-xs hover:underline">
+                            {item.media_type === "movie"
+                              ? "(Movie)"
+                              : "(TV Show)"}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+          </ContentWrapper>
         </div>
       )}
     </header>

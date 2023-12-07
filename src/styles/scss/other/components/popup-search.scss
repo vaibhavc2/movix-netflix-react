@@ -13,6 +13,10 @@
   z-index: 1000;
   -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
+  padding: 0 1rem;
+  @include sm {
+    padding: 0 3rem;
+  }
 }
 
 .popup {
@@ -23,9 +27,6 @@
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   width: 100%;
   max-width: 800px;
-  @include md {
-    width: 70%;
-  }
 }
 
 .searchInput {
