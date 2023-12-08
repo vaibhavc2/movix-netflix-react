@@ -30,7 +30,7 @@
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.8);
     display: flex;
-    align-items: start;
+    align-items: flex-start;
     z-index: 1000;
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);

@@ -104,15 +104,16 @@ const Header = ({ setShowPopupSearch }: Props) => {
       // setShowSearch((prev) => !prev);
       setShowSearch(true);
       setHideSearchIcon(true);
+      document.body.classList.add("overflow-hidden");
       setTimeout(() => focusSearch(), 100);
     }
   }, [setShowSearch, focusSearch, lastScrollY, location.pathname]);
 
-  const openMobileMenu = () => {
+  const openMobileMenu = useCallback(() => {
     setMobileMenu(true);
     setShowSearch(false);
     setHideSearchIcon(false);
-  };
+  }, [setMobileMenu, setShowSearch, setHideSearchIcon]);
 
   const searchQueryHandler = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {
@@ -134,6 +135,7 @@ const Header = ({ setShowPopupSearch }: Props) => {
     [navigate, setShowPopupSearch]
   );
 
+  // memoization doesn't work here!
   const clearSearch = () => {
     if (query.length === 0) {
       setShowSearch(false);
@@ -144,20 +146,33 @@ const Header = ({ setShowPopupSearch }: Props) => {
     }
   };
 
+  const showDesktopSearchOnClick = useCallback(
+    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      e.stopPropagation();
+      e.preventDefault();
+      setShowPopupSearch(true);
+    },
+    [setShowPopupSearch]
+  );
+
   const popupClickHandler = useCallback(
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       if (e.target === e.currentTarget) {
         setShowSearch(false);
         setHideSearchIcon(false);
+        document.body.classList.remove("overflow-hidden");
       }
     },
-    [setShowSearch]
+    [setShowSearch, setHideSearchIcon]
   );
 
-  const navigationHandler = (route: string) => {
-    navigate(`/explore/${route}`);
-    setMobileMenu(false);
-  };
+  const navigationHandler = useCallback(
+    (route: string) => {
+      navigate(`/explore/${route}`);
+      setMobileMenu(false);
+    },
+    [navigate, setMobileMenu]
+  );
 
   return (
     <header className={`header ${mobileMenu ? "mobileView" : ""} ${show}`}>
@@ -178,23 +193,14 @@ const Header = ({ setShowPopupSearch }: Props) => {
           >
             <div
               className={`w-48 cursor-pointer rounded-3xl bg-gray-300 bg-opacity-30 px-3 py-[0.4rem] text-base text-gray-100 placeholder-slate-100 outline-none`}
-              onClick={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-                if (e.target === e.currentTarget) setShowPopupSearch(true);
-              }}
+              onClick={showDesktopSearchOnClick}
             >
               {"(Ctrl + K) to Search"}
             </div>
 
-            <SearchIcon
-              className="mx-1 mt-1 cursor-pointer text-white hover:text-[#da2f68]"
-              onClick={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-                setShowPopupSearch(true);
-              }}
-            />
+            <div onClick={showDesktopSearchOnClick}>
+              <SearchIcon className="mx-1 mt-1 cursor-pointer text-white hover:text-[#da2f68]" />
+            </div>
           </li>
         </ul>
 
@@ -231,7 +237,7 @@ const Header = ({ setShowPopupSearch }: Props) => {
             </SearchInput>
           </ContentWrapper>
 
-          <div className="popup-container" onClick={popupClickHandler}>
+          <div className={`popup-container`} onClick={popupClickHandler}>
             <Spinner
               initial={false}
               className={`absolute left-1/2 top-1/4 ${
