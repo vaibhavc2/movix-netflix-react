@@ -57,8 +57,9 @@ const Header = ({ setShowPopupSearch }: Props) => {
   const searchMobileClickHandler = useCallback(() => {
     setShowSearch(false);
     setHideSearchIcon(false);
+    document.body.classList.remove("overflow-hidden");
     searchClickHandler();
-  }, [searchClickHandler]);
+  }, [searchClickHandler, setShowSearch, setHideSearchIcon]);
 
   // scroll to top when location changes, unhide search icon, hide search bar
   useEffect(
@@ -83,6 +84,12 @@ const Header = ({ setShowPopupSearch }: Props) => {
       }
     } else {
       setShow("top");
+    }
+    // if mobile menu is open, close it, unhide search icon and enable scrolling
+    if (mobileMenu) {
+      setMobileMenu(false);
+      setHideSearchIcon(false);
+      document.body.classList.remove("overflow-hidden");
     }
 
     // set the last scroll position
@@ -110,6 +117,7 @@ const Header = ({ setShowPopupSearch }: Props) => {
     setMobileMenu(true);
     setShowSearch(false);
     setHideSearchIcon(false);
+    document.body.classList.remove("overflow-hidden");
   }, [setMobileMenu, setShowSearch, setHideSearchIcon]);
 
   const searchQueryHandler = useCallback(
@@ -164,7 +172,13 @@ const Header = ({ setShowPopupSearch }: Props) => {
   );
 
   const navigationHandler = useCallback(
-    (route: string) => {
+    (route: string, isLogo = false) => {
+      if (isLogo) {
+        navigate("/");
+        setMobileMenu(false);
+        document.body.classList.remove("overflow-hidden");
+        return;
+      }
       navigate(`/explore/${route}`);
       setMobileMenu(false);
     },
@@ -174,7 +188,7 @@ const Header = ({ setShowPopupSearch }: Props) => {
   return (
     <header className={`header ${mobileMenu ? "mobileView" : ""} ${show}`}>
       <ContentWrapper>
-        <div className="logo" onClick={() => navigate("/")}>
+        <div className="logo" onClick={() => navigationHandler("/", true)}>
           <img src={logo} alt="" />
         </div>
 
@@ -217,7 +231,6 @@ const Header = ({ setShowPopupSearch }: Props) => {
         >
           <ContentWrapper>
             <SearchInput
-              className=""
               inputClassName="!text-lg"
               placeholder="Search a movie or tv show..."
               query={query}
