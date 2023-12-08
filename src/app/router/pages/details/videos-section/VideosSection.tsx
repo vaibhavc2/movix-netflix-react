@@ -8,6 +8,7 @@ import { YOUTUBE_BASE_URL } from "@/constants";
 import { strID } from "@/helpers/str-id.helper";
 import { useLoadingSkeleton } from "@/hooks/useLoadingSkeleton";
 import { useAppSelector } from "@/store/store";
+import ScrollContainer from "react-indiana-drag-scroll";
 import { PlayIcon } from "../play-icon/PlayIcon";
 
 type Props = {
@@ -45,7 +46,7 @@ const VideosSection = ({ data, isLoading, isError }: Props) => {
             {data && data?.results?.length > 0 && (
               <div className="sectionHeading">Official Videos</div>
             )}
-            <div className="videos">
+            <ScrollContainer className="videos">
               {data &&
                 data?.results?.map((video: any, index: number) => (
                   <div
@@ -82,7 +83,7 @@ const VideosSection = ({ data, isLoading, isError }: Props) => {
                     <div className="videoTitle">{video.name}</div>
                   </div>
                 ))}
-            </div>
+            </ScrollContainer>
           </>
         ) : (
           <div className="videoSkeleton">{loadingSkeleton}</div>

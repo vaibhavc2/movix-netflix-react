@@ -6,6 +6,7 @@ import { strID } from "@/helpers/str-id.helper";
 import { useLoadingSkeleton } from "@/hooks/useLoadingSkeleton";
 import { useAppSelector } from "@/store/store";
 import { memo, useCallback, useMemo } from "react";
+import ScrollContainer from "react-indiana-drag-scroll";
 
 type Props = {
   data: any[];
@@ -38,7 +39,7 @@ const Cast = ({ data, isLoading, isError }: Props) => {
       <ContentWrapper>
         <div className="sectionHeading">Top Cast</div>
         {!isLoading && !isError ? (
-          <div className="listItems">
+          <ScrollContainer className="listItems">
             {data &&
               data?.map((item: any, index) => (
                 <div className="listItem" key={item.id + "-" + index}>
@@ -72,7 +73,7 @@ const Cast = ({ data, isLoading, isError }: Props) => {
                   </div>
                 </div>
               ))}
-          </div>
+          </ScrollContainer>
         ) : (
           <div className="castSkeleton">{loadingSkeleton}</div>
         )}

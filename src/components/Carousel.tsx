@@ -14,6 +14,7 @@ import { useLoadingSkeleton } from "@/hooks/useLoadingSkeleton";
 import { useAppSelector } from "@/store/store";
 import "@/styles/scss/other/components/carousel.scss";
 import dayjs from "dayjs";
+import ScrollContainer from "react-indiana-drag-scroll";
 import CircleRating from "./CircleRating";
 import Genres from "./Genres";
 
@@ -83,7 +84,7 @@ const Carousel = ({ data, isLoading, isError, endPoint, title }: Props) => {
         />
 
         {!isLoading && !isError ? (
-          <div className="carouselItems" ref={carouselRef}>
+          <ScrollContainer className="carouselItems" innerRef={carouselRef}>
             {data?.map((item) => (
               <div
                 className="carouselItem"
@@ -114,7 +115,7 @@ const Carousel = ({ data, isLoading, isError, endPoint, title }: Props) => {
                 </div>
               </div>
             ))}
-          </div>
+          </ScrollContainer>
         ) : (
           <div className="loadingSkeleton">{loadingSkeleton}</div>
         )}
