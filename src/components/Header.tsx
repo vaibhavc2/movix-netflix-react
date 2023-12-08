@@ -84,9 +84,7 @@ const Header = ({ setShowPopupSearch }: Props) => {
     } else {
       setShow("top");
     }
-    // show the search bar and hide the search icon when scroll event is triggered
-    setShowSearch(false);
-    setHideSearchIcon(false);
+
     // set the last scroll position
     setLastScrollY(currentScrollY);
   }, [lastScrollY, setLastScrollY, mobileMenu, setShow]);
@@ -97,11 +95,10 @@ const Header = ({ setShowPopupSearch }: Props) => {
   const toggleSearch = useCallback(() => {
     setMobileMenu(false);
     // if scroll is at the top and location is home, focus the main search input
-    // else focus the search input in the header
+    // else focus the search input in the header and stop scrolling
     if (lastScrollY < 200 && location.pathname === "/" && isMobile) {
       focusMainSearch();
     } else {
-      // setShowSearch((prev) => !prev);
       setShowSearch(true);
       setHideSearchIcon(true);
       document.body.classList.add("overflow-hidden");
