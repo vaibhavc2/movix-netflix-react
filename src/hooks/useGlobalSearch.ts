@@ -14,10 +14,12 @@ export const useGlobalSearch = ({
       if (e.ctrlKey && e.key === "k") {
         e.preventDefault();
         setShowPopupSearch(true);
+        document.body.classList.add("overflow-hidden");
       }
       if (e.key === "Escape") {
         e.preventDefault();
         setShowPopupSearch(false);
+        document.body.classList.remove("overflow-hidden");
       }
     },
     [showPopupSearch, setShowPopupSearch]

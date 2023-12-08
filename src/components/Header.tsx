@@ -127,6 +127,7 @@ const Header = ({ setShowPopupSearch }: Props) => {
         navigate(`/search/${debouncedQuery}`);
         setShowSearch(false);
         setHideSearchIcon(false);
+        document.body.classList.remove("overflow-hidden");
       }
     },
     [debouncedQuery, navigate, setShowSearch]
@@ -136,6 +137,7 @@ const Header = ({ setShowPopupSearch }: Props) => {
     (item: any) => {
       navigate(`/${item.media_type}/${item.id}`);
       setShowPopupSearch(false);
+      document.body.classList.remove("overflow-hidden");
     },
     [navigate, setShowPopupSearch]
   );
@@ -145,6 +147,7 @@ const Header = ({ setShowPopupSearch }: Props) => {
     if (query.length === 0) {
       setShowSearch(false);
       setHideSearchIcon(false);
+      document.body.classList.remove("overflow-hidden");
     } else {
       dispatch(setQuery(""));
       setTimeout(() => searchRef.current?.focus(), 50);
@@ -156,6 +159,7 @@ const Header = ({ setShowPopupSearch }: Props) => {
       e.stopPropagation();
       e.preventDefault();
       setShowPopupSearch(true);
+      document.body.classList.add("overflow-hidden");
     },
     [setShowPopupSearch]
   );

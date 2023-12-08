@@ -39,6 +39,7 @@ const PopupSearch = ({ setShowPopupSearch }: Props) => {
       if (e.key === "Enter" && debouncedQuery.length > 0) {
         navigate(`/search/${debouncedQuery}`);
         setShowPopupSearch(false);
+        document.body.classList.remove("overflow-hidden");
       }
     },
     [debouncedQuery, navigate, setShowPopupSearch]
@@ -48,6 +49,7 @@ const PopupSearch = ({ setShowPopupSearch }: Props) => {
     if (debouncedQuery.length > 0) {
       navigate(`/search/${debouncedQuery}`);
       setShowPopupSearch(false);
+      document.body.classList.remove("overflow-hidden");
     }
   }, [debouncedQuery, navigate, setShowPopupSearch]);
 
@@ -55,13 +57,26 @@ const PopupSearch = ({ setShowPopupSearch }: Props) => {
     (item: any) => {
       navigate(`/${item.media_type}/${item.id}`);
       setShowPopupSearch(false);
+      document.body.classList.remove("overflow-hidden");
     },
     [navigate, setShowPopupSearch]
   );
 
+  const blurHandler = useCallback(
+    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      if (e.target === e.currentTarget) {
+        setShowPopupSearch(false);
+        document.body.classList.remove("overflow-hidden");
+      }
+    },
+    [setShowPopupSearch]
+  );
+
   const clearSearch = () => {
-    if (query.length === 0) setShowPopupSearch(false);
-    else {
+    if (query.length === 0) {
+      setShowPopupSearch(false);
+      document.body.classList.remove("overflow-hidden");
+    } else {
       dispatch(setQuery(""));
       setTimeout(() => searchRef.current?.focus(), 50);
     }
@@ -69,14 +84,7 @@ const PopupSearch = ({ setShowPopupSearch }: Props) => {
 
   return (
     <>
-      <div
-        className="popup-container"
-        onClick={(e) => {
-          if (e.target === e.currentTarget) {
-            setShowPopupSearch(false);
-          }
-        }}
-      >
+      <div className="popup-container" onClick={blurHandler}>
         <SearchInput
           noSearchInputClass
           placeholder="Search for a movie or tv show..."
