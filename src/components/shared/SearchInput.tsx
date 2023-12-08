@@ -30,6 +30,7 @@ const SearchInput = forwardRef(
         className={`${noSearchInputClass ? "" : "searchInput"} ${className}`}
       >
         <input
+          name="search"
           type="text"
           placeholder={placeholder}
           ref={inputRef as React.RefObject<HTMLInputElement>}
