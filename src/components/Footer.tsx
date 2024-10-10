@@ -19,7 +19,7 @@ const Footer = () => {
         </ul>
         <div className="infoText">
           <span className="text">
-            © 2023 Movie App |{" "}
+            © 2024 Movie App |{" "}
             <span className="font-bold hover:underline">Movix</span>
           </span>
           <div className="text">
