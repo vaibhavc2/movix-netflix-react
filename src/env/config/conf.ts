@@ -1,6 +1,10 @@
 export const getConfig = (): Config => {
   return {
     TMDB_TOKEN: import.meta.env.VITE_TMDB_TOKEN,
+    PROXY_HOST: import.meta.env.VITE_PROXY_HOST,
+    PROXY_PORT: import.meta.env.VITE_PROXY_PORT,
+    PROXY_USERNAME: import.meta.env.VITE_PROXY_USERNAME,
+    PROXY_PASSWORD: import.meta.env.VITE_PROXY_PASSWORD,
   };
 };
 

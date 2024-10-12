@@ -1,4 +1,5 @@
-export const API_BASE_URL = "https://api.themoviedb.org/3";
+// export const API_BASE_URL = "https://api.themoviedb.org/3";
+export const API_BASE_URL = "https://proxy.webapps.works/tmdb";
 
 export const GITHUB_PROFILE = "https://github.com/vaibhavc2";
 
