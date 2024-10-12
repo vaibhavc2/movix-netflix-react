@@ -1,10 +1,9 @@
 import wretch from "wretch";
 import QueryStringAddon from "wretch/addons/queryString";
 import sanitizedConfig from "../env";
-import { HttpsProxyAgent } from "https-proxy-agent/dist";
+// import { HttpsProxyAgent } from "https-proxy-agent/dist";
 
-const { TMDB_TOKEN, PROXY_HOST, PROXY_PORT, PROXY_USERNAME, PROXY_PASSWORD } =
-  sanitizedConfig;
+const { TMDB_TOKEN } = sanitizedConfig;
 
 export const createWretchApi = (urlPath: string) => {
   // create the proxy agent

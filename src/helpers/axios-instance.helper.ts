@@ -1,7 +1,7 @@
 import { API_BASE_URL } from "@/constants";
-import sanitizedConfig from "@/env";
 import axios from "axios";
-import { HttpsProxyAgent } from "https-proxy-agent";
+// import sanitizedConfig from "@/env";
+// import { HttpsProxyAgent } from "https-proxy-agent";
 
 // const { TMDB_TOKEN, PROXY_HOST, PROXY_PORT, PROXY_USERNAME, PROXY_PASSWORD } =
 //   sanitizedConfig;

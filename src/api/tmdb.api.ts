@@ -1,7 +1,7 @@
-import { API_BASE_URL } from "@/constants";
 import { createAxiosInstance } from "@/helpers/axios-instance.helper";
-import { createWretchApi } from "@/helpers/wretch-api.helper";
 import { printErrorMessage } from "@/utils/debug/print-error-message.util";
+// import { API_BASE_URL } from "@/constants";
+// import { createWretchApi } from "@/helpers/wretch-api.helper";
 
 class TMDBAPI {
   // private api;
